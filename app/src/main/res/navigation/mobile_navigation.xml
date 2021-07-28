@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/songFragment"
+        android:name="se.umu.emli.ou3.SongFragment"
+        android:label="fragment_song"
+        tools:layout="@layout/fragment_song" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="se.umu.emli.ou3.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_scoresFragment"
+            app:destination="@id/scoresFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_rulesFragment"
+            app:destination="@id/rulesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_songFragment"
+            app:destination="@id/songFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addSongFragment2"
+            app:destination="@id/addSongFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addSongFragment"
+        android:name="se.umu.emli.ou3.AddSongFragment"
+        android:label="fragment_add_song"
+        tools:layout="@layout/fragment_add_song" />
+    <fragment
+        android:id="@+id/rulesFragment"
+        android:name="se.umu.emli.ou3.RulesFragment"
+        android:label="fragment_rules"
+        tools:layout="@layout/fragment_rules" />
+    <fragment
+        android:id="@+id/scoresFragment"
+        android:name="se.umu.emli.ou3.ScoresFragment"
+        android:label="fragment_scores"
+        tools:layout="@layout/fragment_scores" />
+</navigation>

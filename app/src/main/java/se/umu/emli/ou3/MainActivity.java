@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         RecyclerView songRecyclerView = findViewById(R.id.song_recycler_view);
         songRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         songRecyclerView.setHasFixedSize(true);
