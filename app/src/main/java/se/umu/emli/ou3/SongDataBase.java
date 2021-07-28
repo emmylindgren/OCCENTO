@@ -2,9 +2,11 @@ package se.umu.emli.ou3;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 /**
  * TODO: Kommentera mer här.
@@ -30,8 +32,31 @@ public abstract class SongDataBase extends RoomDatabase {
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     SongDataBase.class, "song_database").fallbackToDestructiveMigration()
-                    .build();
+                    .addCallback(roomCallback).build();
         }
         return instance;
+    }
+
+    private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback(){
+        // Is called when the Database is created.
+        @Override
+        public void onCreate(@NonNull @org.jetbrains.annotations.NotNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            new Thread(new PopulateDbTask(instance)).start();
+        }
+    };
+
+    private static class PopulateDbTask implements Runnable{
+        private SongDao songDao;
+
+        private PopulateDbTask(SongDataBase db){
+            songDao = db.songdao();
+        }
+
+        @Override
+        public void run() {
+            songDao.insert(new Song("Sång1","Artist1","Bla bla bla",false));
+
+        }
     }
 }
