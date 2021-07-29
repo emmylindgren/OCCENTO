@@ -3,44 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@+id/nav_home">
 
     <fragment
-        android:id="@+id/songFragment"
-        android:name="se.umu.emli.ou3.SongFragment"
-        android:label="fragment_song"
-        tools:layout="@layout/fragment_song" />
+        android:id="@+id/nav_home"
+        android:name="se.umu.emli.ou3.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="se.umu.emli.ou3.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_scoresFragment"
-            app:destination="@id/scoresFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_rulesFragment"
-            app:destination="@id/rulesFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_songFragment"
-            app:destination="@id/songFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_addSongFragment2"
-            app:destination="@id/addSongFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addSongFragment"
-        android:name="se.umu.emli.ou3.AddSongFragment"
-        android:label="fragment_add_song"
+        android:id="@+id/nav_AddSong"
+        android:name="se.umu.emli.ou3.ui.addSong.AddSongFragment"
+        android:label="@string/menu_add_song"
         tools:layout="@layout/fragment_add_song" />
+
     <fragment
-        android:id="@+id/rulesFragment"
-        android:name="se.umu.emli.ou3.RulesFragment"
-        android:label="fragment_rules"
-        tools:layout="@layout/fragment_rules" />
-    <fragment
-        android:id="@+id/scoresFragment"
-        android:name="se.umu.emli.ou3.ScoresFragment"
-        android:label="fragment_scores"
-        tools:layout="@layout/fragment_scores" />
+        android:id="@+id/nav_SeeSongs"
+        android:name="se.umu.emli.ou3.ui.seeSongs.SeeSongsFragment"
+        android:label="@string/menu_see_songs"
+        tools:layout="@layout/fragment_see_songs" />
 </navigation>

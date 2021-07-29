@@ -1,20 +1,26 @@
-package se.umu.emli.ou3;
+package se.umu.emli.ou3.ui.seeSongs;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class SongViewModel extends AndroidViewModel {
+import se.umu.emli.ou3.Song;
+import se.umu.emli.ou3.SongRepository;
+
+public class SeeSongsViewModel extends AndroidViewModel {
+
     private SongRepository repository;
     private LiveData<List<Song>> allSongs;
 
-    public SongViewModel(@NonNull @NotNull Application application) {
+    public SeeSongsViewModel(@NonNull @NotNull Application application) {
         super(application);
         repository = new SongRepository(application);
         allSongs = repository.getAllSongs();
