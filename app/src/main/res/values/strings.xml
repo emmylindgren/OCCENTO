@@ -9,7 +9,7 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_see_songs">See songs</string>
-    <string name="menu_add_song">Add song</string>
+    <string name="menu_add_song">Lägg till låt</string>
     <string name="incorrect_song_add">Fyll i alla rutor</string>
     <string name="song_added">Låten är tillagd!</string>
 
@@ -20,4 +20,5 @@
     <string name="artist_field">Artist</string>
     <string name="lyrics_field">Några rader ur låten</string>
     <string name="add_song_button">Lägg till låt</string>
+    <string name="maxCharacterCount">0/100</string>
 </resources>
