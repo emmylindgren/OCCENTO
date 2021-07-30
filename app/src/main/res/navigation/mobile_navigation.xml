@@ -3,19 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
+    android:label="@string/gameRules"
     app:startDestination="@+id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
         android:name="se.umu.emli.ou3.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_home_to_nav_AddSong"
             app:destination="@id/nav_AddSong" />
         <action
             android:id="@+id/action_nav_home_to_nav_SeeSongs"
             app:destination="@id/nav_SeeSongs" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_rule"
+            app:destination="@id/nav_rule" />
     </fragment>
 
     <fragment
@@ -29,4 +33,9 @@
         android:name="se.umu.emli.ou3.ui.seeSongs.SeeSongsFragment"
         android:label="@string/menu_see_songs"
         tools:layout="@layout/fragment_see_songs" />
+    <fragment
+        android:id="@+id/nav_rule"
+        android:name="se.umu.emli.ou3.ui.rules.RulesFragment"
+        android:label="@string/gameRules"
+        tools:layout="@layout/rules_fragment" />
 </navigation>
