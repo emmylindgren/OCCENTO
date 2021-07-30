@@ -21,12 +21,14 @@ public interface SongDao {
     @Delete
     void delete(Song song);
 
-    /* TODO: Ta bort denna. Till för att ta bort alla.
-    @Query("DELETE FROM song_table")
-    void deleteAllSongs();
-     */
-
     @Query("SELECT * FROM song_table ORDER BY title DESC")
     LiveData<List<Song>> getAllSongs();
+
+    /**
+     * Denna ej implementerad ännu. TODO: Eventuellt fixa så bara tillagda låtar syns?
+     * @return
+     */
+    @Query("SELECT * FROM song_table WHERE addedByUser== 1 ORDER BY title DESC")
+    LiveData<List<Song>> getAllUserAddedSongs();
 
 }

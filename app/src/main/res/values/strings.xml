@@ -7,7 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Hem</string>
+    <string name="menu_home"> </string>
     <string name="menu_see_songs">Alla låtar</string>
     <string name="menu_add_song">Lägg till låt</string>
     <string name="incorrect_song_add">Fyll i alla rutor</string>
@@ -21,7 +21,7 @@
 
     <string name="låtText">Ser det på dig med detsamma Vet att nånting har hänt Har du träffat någon annan Som kan vägen hem?</string>
     <string name="artist"><![CDATA[Norlie & KKV]]></string>
-
+    <string name="game_title">occento</string>
 
 
 </resources>

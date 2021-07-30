@@ -34,7 +34,6 @@ public class SeeSongsFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_see_songs, container, false);
 
         setUpRecycler();
-
         seeSongsViewModel.getAllSongs().observe(requireActivity(), songs -> songAdapter.setSongs(songs));
         startItemTouchHelper();
 
@@ -43,7 +42,7 @@ public class SeeSongsFragment extends Fragment {
 
     private void startItemTouchHelper() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull @NotNull RecyclerView recyclerView,
                                   @NonNull @NotNull RecyclerView.ViewHolder viewHolder,
