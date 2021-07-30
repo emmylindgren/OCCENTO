@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:background="@color/primary_dark_green">
 
         <TextView
             android:id="@+id/textview_song_title"
@@ -18,7 +19,6 @@
             android:layout_alignParentStart="true"
             android:text="Titel"
             android:maxLines="1"
-            android:layout_toStartOf="@id/textview_song_artist"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:ellipsize="end"/>
 
@@ -26,14 +26,18 @@
             android:id="@+id/textview_song_artist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
             android:text="Artist"
+            android:maxLines="1"
+            android:textSize="15sp"
+            android:layout_below="@+id/textview_song_title"
+            android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
         <TextView
             android:id="@+id/textview_song_lyrics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textview_song_title"
+            android:layout_below="@id/textview_song_artist"
             android:text="La la la "/>
 
     </RelativeLayout>

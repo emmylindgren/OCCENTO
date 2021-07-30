@@ -8,8 +8,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import org.jetbrains.annotations.NotNull;
 
 import se.umu.emli.ou3.R;
 import se.umu.emli.ou3.SongAdapter;
@@ -17,25 +22,52 @@ import se.umu.emli.ou3.SongAdapter;
 public class SeeSongsFragment extends Fragment {
 
     private SeeSongsViewModel seeSongsViewModel;
+    private RecyclerView songRecyclerView;
+    private View root;
+    private SongAdapter songAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         seeSongsViewModel =
                 new ViewModelProvider(this).get(SeeSongsViewModel.class);
 
-        View root = inflater.inflate(R.layout.fragment_see_songs, container, false);
+        root = inflater.inflate(R.layout.fragment_see_songs, container, false);
 
-        RecyclerView songRecyclerView = root.findViewById(R.id.song_recycler_view);
+        setUpRecycler();
+
+        seeSongsViewModel.getAllSongs().observe(requireActivity(), songs -> songAdapter.setSongs(songs));
+        startItemTouchHelper();
+
+        return root;
+    }
+
+    private void startItemTouchHelper() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull @NotNull RecyclerView recyclerView,
+                                  @NonNull @NotNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull @NotNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder,
+                                 int direction){
+                seeSongsViewModel.delete(songAdapter.getSongAt(viewHolder.getAdapterPosition()));
+                Snackbar.make(root,"Låt raderad", Snackbar.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(songRecyclerView);
+    }
+
+    private void setUpRecycler() {
+        songRecyclerView = root.findViewById(R.id.song_recycler_view);
+
         songRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         songRecyclerView.setHasFixedSize(true);
 
-        SongAdapter songAdapter = new SongAdapter();
+        songAdapter = new SongAdapter();
         songRecyclerView.setAdapter(songAdapter);
-
-
-        seeSongsViewModel.getAllSongs().observe(requireActivity(), songs -> songAdapter.setSongs(songs));
-
-        return root;
     }
 
     @Override

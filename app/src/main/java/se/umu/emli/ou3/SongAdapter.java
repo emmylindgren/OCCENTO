@@ -43,6 +43,10 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
         notifyDataSetChanged();
     }
 
+    public Song getSongAt(int position){
+        return songs.get(position);
+    }
+
     class SongHolder extends RecyclerView.ViewHolder{
         private TextView title;
         private TextView artist;

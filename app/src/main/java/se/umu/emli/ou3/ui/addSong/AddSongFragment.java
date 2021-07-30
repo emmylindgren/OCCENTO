@@ -30,15 +30,16 @@ public class AddSongFragment extends Fragment {
     private EditText editTextLyrics;
     private TextView nrOfCharsLyrics;
     private Button saveSongButton;
+    private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         addSongViewModel =
                 new ViewModelProvider(this).get(AddSongViewModel.class);
 
-        View root = inflater.inflate(R.layout.fragment_add_song, container, false);
+        root = inflater.inflate(R.layout.fragment_add_song, container, false);
 
-        setUpViewItems(root);
+        setUpViewItems();
         setUpListeners();
 
         return root;
@@ -82,7 +83,7 @@ public class AddSongFragment extends Fragment {
         };
     }
 
-    private void setUpViewItems(View root) {
+    private void setUpViewItems() {
         editTextTitle = root.findViewById(R.id.title_edit_text);
         editTextArtist = root.findViewById(R.id.artist_edit_text);
         editTextLyrics = root.findViewById(R.id.lyrics_edit_text);
@@ -92,25 +93,25 @@ public class AddSongFragment extends Fragment {
 
 
 
-    private void addSong(View view){
+    private void addSong(View root){
         String title = editTextTitle.getText().toString();
         String artist = editTextArtist.getText().toString();
         String lyrics = editTextLyrics.getText().toString();
 
         //Trim is used to avoid accepting input from user in form of blank spaces.
         if(title.trim().isEmpty() || artist.trim().isEmpty() || lyrics.trim().isEmpty()){
-            Snackbar.make(view,R.string.incorrect_song_add, Snackbar.LENGTH_SHORT).show();
-            hideKeyboard(view);
+            Snackbar.make(root,R.string.incorrect_song_add, Snackbar.LENGTH_SHORT).show();
+            hideKeyboard(root);
             return;
         }
 
         addSongViewModel.insert(new Song(title,artist,lyrics,true));
-        Snackbar.make(view,R.string.song_added, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(root,R.string.song_added, Snackbar.LENGTH_SHORT).show();
         editTextTitle.getText().clear();
         editTextArtist.getText().clear();
         editTextLyrics.getText().clear();
 
-        hideKeyboard(view);
+        hideKeyboard(root);
     }
 
     /**

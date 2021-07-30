@@ -40,12 +40,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="140dp">
 
         <EditText
             android:id="@+id/lyrics_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="140dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="20dp"
@@ -55,7 +55,7 @@
             android:background="@drawable/custom_input"
             android:ems="15"
             android:hint="@string/lyrics_field"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:maxLength="100"
             android:gravity="top"/>
 
