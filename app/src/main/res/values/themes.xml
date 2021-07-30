@@ -9,9 +9,12 @@
         <item name="colorSecondary">@color/secondary_blue</item>
         <item name="colorSecondaryVariant">@color/secondary_light_blue</item>
         <item name="colorOnSecondary">@color/black</item>
+        <!-- Text colors. -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:fontFamily">@font/rubik_reg</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
         <item name="materialButtonStyle">@style/Widget.App.Button</item>
     </style>
 
@@ -20,10 +23,17 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Ou3.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Ou3.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <!-- Text colors. -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+    </style>
     <style name="Theme.Ou3.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/secondary_blue</item>
+        <item name="fontFamily">@font/rubik_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#09758C</item>
     </style>
 </resources>

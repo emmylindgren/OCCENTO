@@ -5,13 +5,11 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:title="@string/menu_home" />
+            android:id="@+id/nav_SeeSongs"
+            android:title="@string/menu_see_songs"
+            />
         <item
             android:id="@+id/nav_AddSong"
             android:title="@string/menu_add_song" />
-        <item
-            android:id="@+id/nav_SeeSongs"
-            android:title="@string/menu_see_songs" />
     </group>
 </menu>
