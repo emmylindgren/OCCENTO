@@ -9,8 +9,9 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 /**
- * TODO: Kommentera mer här.
- *
+ * Room database for containing Song entities.
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
  */
 @Database(entities = Song.class, version = 1)
 public abstract class SongDataBase extends RoomDatabase {
@@ -20,9 +21,8 @@ public abstract class SongDataBase extends RoomDatabase {
     public abstract SongDao songdao();
 
     /**
-     * TODO: Kommentera mera här.
-     * Is a singleton to make sure only one instance of the database is initiated. Only creates a
-     * database if one is not already created.
+     * Constructor is a singleton to make sure only one instance of the database is initiated.
+     * Only creates a database if one is not already created.
      * Syncronized to make sure only one thread at a time can access this method and thus makes
      * sure only one instance is created.
      * @param context
@@ -46,6 +46,9 @@ public abstract class SongDataBase extends RoomDatabase {
         }
     };
 
+    /**
+     * Populates the database with Songs.
+     */
     private static class PopulateDbTask implements Runnable{
         private SongDao songDao;
 
@@ -55,6 +58,7 @@ public abstract class SongDataBase extends RoomDatabase {
 
         @Override
         public void run() {
+            //TODO: Lägg till fler låtar här.
             songDao.insert(new Song("Sång1","Artist1","Bla bla bla",false));
 
         }

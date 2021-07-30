@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.rules.RulesFragment"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:paddingTop="16dp">
+    android:layout_height="match_parent" android:layout_width="match_parent"
+    android:background="@color/primary_green">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/gameintroTitle"
-        android:textSize="15sp"
-        android:textColor="@color/black"/>
+        android:orientation="vertical"
+        tools:context=".ui.rules.RulesFragment"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/gameIntroduction"
-        android:lineSpacingExtra="8dp"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gameintroTitle"
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/pointsInfoTitle"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="12dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/pointsinfoText"
-        android:lineSpacingExtra="8dp"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gameIntroduction"
+            android:lineSpacingExtra="8dp"
+            android:layout_marginTop="8dp"/>
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pointsInfoTitle"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="12dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pointsinfoText"
+            android:lineSpacingExtra="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
