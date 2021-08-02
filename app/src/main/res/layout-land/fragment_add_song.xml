@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/primary_green"
+    tools:context=".ui.addSong.AddSongFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+        <EditText
+            android:id="@+id/title_edit_text"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:background="@drawable/custom_input"
+            android:paddingStart="12dp"
+            android:layout_marginStart="16dp"
+            android:paddingEnd="12dp"
+            android:ems="15"
+            android:maxLength="50"
+            android:hint="@string/title_field"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/artist_edit_text"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/custom_input"
+            android:ems="15"
+            android:maxLength="50"
+            android:hint="@string/artist_field"
+            android:inputType="text" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+        <EditText
+            android:id="@+id/lyrics_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="20dp"
+            android:paddingTop="15dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="@drawable/custom_input"
+            android:ems="15"
+            android:hint="@string/lyrics_field"
+            android:inputType="textMultiLine"
+            android:maxLength="100"
+            android:gravity="top"/>
+
+        <TextView
+            android:id="@+id/max_chars_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/lyrics_edit_text"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/maxCharacterCount"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/save_song"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:text="@string/add_song_button"
+        android:background="@drawable/custom_button"
+        />
+
+</LinearLayout>
