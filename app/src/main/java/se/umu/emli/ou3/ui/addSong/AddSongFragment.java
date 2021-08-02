@@ -1,5 +1,8 @@
 package se.umu.emli.ou3.ui.addSong;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,12 +15,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 import se.umu.emli.ou3.R;
 import se.umu.emli.ou3.Song;
@@ -46,12 +52,15 @@ public class AddSongFragment extends Fragment {
     private Button saveSongButton;
     private View root;
 
+    @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         addSongViewModel =
                 new ViewModelProvider(this).get(AddSongViewModel.class);
 
         root = inflater.inflate(R.layout.fragment_add_song, container, false);
+
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDefaultDisplayHomeAsUpEnabled(true);
 
         setUpViewItems();
         setUpListeners();

@@ -20,8 +20,8 @@ import se.umu.emli.ou3.ui.addSong.AddSongFragment;
  * ViewModel class.
  *
  * Holding and preparing all the data for the userinterface {@link SeeSongsFragment}. Communicates
- * with the repository, passing information between UI and db. Also survives configuration
- * changes like rotations of the screen.
+ * with the repository, passing information between UI, db and other model classes. Also survives
+ * configuration changes like rotations of the screen.
  * TODO: mer kommentarer. Ovan är från yt videon.
  *
  * @author Emmy Lindgren, emli.
