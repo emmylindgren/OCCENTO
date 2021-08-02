@@ -9,10 +9,12 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 /**
- * Room database for containing Song entities.
+ * Model class.
+ * SQLite Room database for containing Song entities.
  * @author Emmy Lindgren, emli.
  * @version 1.0
  */
+
 @Database(entities = Song.class, version = 1)
 public abstract class SongDataBase extends RoomDatabase {
 
@@ -26,7 +28,7 @@ public abstract class SongDataBase extends RoomDatabase {
      * Syncronized to make sure only one thread at a time can access this method and thus makes
      * sure only one instance is created.
      * @param context
-     * @return
+     * @return the db created.
      */
     public static synchronized SongDataBase getInstance(Context context){
         if(instance == null){

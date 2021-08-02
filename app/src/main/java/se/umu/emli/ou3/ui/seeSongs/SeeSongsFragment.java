@@ -19,6 +19,16 @@ import org.jetbrains.annotations.NotNull;
 import se.umu.emli.ou3.R;
 import se.umu.emli.ou3.SongAdapter;
 
+/**
+ * View class.
+ *
+ * Handles UI and operating system interactions for the user to be displaying all songs in the db.
+ * The user can swipe a song to the right to delete it from the db, in which case a
+ * snackbar is showed to inform the user that the song has been deleted.
+ *
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class SeeSongsFragment extends Fragment {
 
     private SeeSongsViewModel seeSongsViewModel;

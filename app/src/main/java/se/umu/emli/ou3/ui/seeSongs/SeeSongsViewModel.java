@@ -14,7 +14,19 @@ import java.util.List;
 
 import se.umu.emli.ou3.Song;
 import se.umu.emli.ou3.SongRepository;
+import se.umu.emli.ou3.ui.addSong.AddSongFragment;
 
+/**
+ * ViewModel class.
+ *
+ * Holding and preparing all the data for the userinterface {@link SeeSongsFragment}. Communicates
+ * with the repository, passing information between UI and db. Also survives configuration
+ * changes like rotations of the screen.
+ * TODO: mer kommentarer. Ovan är från yt videon.
+ *
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class SeeSongsViewModel extends AndroidViewModel {
 
     private SongRepository repository;

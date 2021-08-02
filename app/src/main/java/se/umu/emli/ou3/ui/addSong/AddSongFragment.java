@@ -22,6 +22,20 @@ import org.jetbrains.annotations.NotNull;
 import se.umu.emli.ou3.R;
 import se.umu.emli.ou3.Song;
 
+/**
+ * View class.
+ *
+ * Handles UI and operating system interactions for the user to be adding own songs
+ * into the db. Makes sure all information needed for a song is filled in in the correct way and
+ * in that case adds the song to db. In other cases a snackbar is shown to inform the user
+ * to correctly fill in the information.
+ *
+ * A song has to contain a title, artist and lyrics. Lyrics can not be more than 100 characters and
+ * AddSongFragment keeps track of how many characters is used for the user and displays it.
+ *
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class AddSongFragment extends Fragment {
 
     private AddSongViewModel addSongViewModel;
@@ -57,10 +71,14 @@ public class AddSongFragment extends Fragment {
     }
 
     private void setUpListeners() {
-        saveSongButton.setOnClickListener(this::addSong);
+        saveSongButton.setOnClickListener(this::checkSong);
         editTextLyrics.addTextChangedListener(startTextWatcher());
     }
 
+    /**
+     * Updates the views character count when user types in characters.
+     * @return
+     */
     @NotNull
     private TextWatcher startTextWatcher() {
         return new TextWatcher() {
@@ -91,9 +109,11 @@ public class AddSongFragment extends Fragment {
         saveSongButton = root.findViewById(R.id.save_song);
     }
 
-
-
-    private void addSong(View root){
+    /**
+     * Checks if the information is filled in correctly by the user.
+     * @param root
+     */
+    private void checkSong(View root){
         String title = editTextTitle.getText().toString();
         String artist = editTextArtist.getText().toString();
         String lyrics = editTextLyrics.getText().toString();
@@ -105,13 +125,24 @@ public class AddSongFragment extends Fragment {
             return;
         }
 
-        addSongViewModel.insert(new Song(title,artist,lyrics,true));
+        addSong(root, title, artist, lyrics);
+        hideKeyboard(root);
+    }
+
+    /**
+     * Adds a song to db. Notifies the user that song has been added and clears the
+     * input text fields to prepare for another input from user.
+     * @param root
+     * @param title
+     * @param artist
+     * @param lyrics
+     */
+    private void addSong(View root, String title, String artist, String lyrics) {
+        addSongViewModel.insert(new Song(title, artist, lyrics,true));
         Snackbar.make(root,R.string.song_added, Snackbar.LENGTH_SHORT).show();
         editTextTitle.getText().clear();
         editTextArtist.getText().clear();
         editTextLyrics.getText().clear();
-
-        hideKeyboard(root);
     }
 
     /**

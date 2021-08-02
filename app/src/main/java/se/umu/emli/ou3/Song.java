@@ -3,9 +3,20 @@ package se.umu.emli.ou3;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * Model class.
+ * Entity Song. Representing a table in the SQLite db {@link SongDataBase}. Containing a primary
+ * key for the entity, and the song consists of a title, artist, lyrics and a boolean for if it's
+ * added by the user or by the database on startup.
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 @Entity(tableName = "song_table")
 public class Song {
 
+    /**
+     * Autogenerates key to make sure no key is the same.
+     */
     @PrimaryKey(autoGenerate = true)
     private int id;
 

@@ -6,6 +6,18 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+/**
+ * Model class.
+ * Repository for interaction between Viewmodels and db. Gives Viewmodels a single access
+ * point while itself can interact with several db and sources, like web services.
+ *
+ * Contains methods for every database operation established in the DAO {@link SongDao} which
+ * starts a new thread for calling the operation. This is because Room doesn't allow database
+ * operations on the main thread.
+ *
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class SongRepository {
     private SongDao songDao;
     private LiveData<List<Song>> allSongs;
@@ -27,12 +39,6 @@ public class SongRepository {
         return allSongs;
     }
 
-    /**
-     * TODO: Ändra detta.
-     * Varje funktion i songdaoen måste här följas med en metod som kör på en tråd.
-     * ROOM tillåter inte databasoperationer på Main-tråden pga det kan få vår app att hänga
-     * sig & krascha.
-     */
     private static class InsertTask implements Runnable{
         private SongDao songDao;
         private Song song;

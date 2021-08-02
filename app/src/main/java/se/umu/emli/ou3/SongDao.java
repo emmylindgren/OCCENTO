@@ -9,6 +9,13 @@ import androidx.room.Update;
 
 import java.util.List;
 
+/**
+ * Model class.
+ * DAO for communication with the SQLite db {@link SongDataBase}.
+ *
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 @Dao
 public interface SongDao {
 

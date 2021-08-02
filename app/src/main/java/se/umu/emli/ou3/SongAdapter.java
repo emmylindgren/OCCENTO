@@ -13,6 +13,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter for how to display songs (data) in a recyclerview, registering when data is chosen
+ * from the recyclerview with the help of nested class SongHolder, and updates the view when data
+ * is updated.
+ *
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
     private List<Song> songs = new ArrayList<>();
 
@@ -47,6 +55,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
         return songs.get(position);
     }
 
+    /**
+     * Class for holding the current selected song from adapter.
+     */
     class SongHolder extends RecyclerView.ViewHolder{
         private TextView title;
         private TextView artist;

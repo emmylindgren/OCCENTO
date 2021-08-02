@@ -14,13 +14,17 @@ import android.view.ViewGroup;
 
 import se.umu.emli.ou3.R;
 
+/**
+ * View class.
+ *
+ * Handles UI for showing the user the rules of the game.
+ *
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class RulesFragment extends Fragment {
 
     private RulesViewModel mViewModel;
-
-    public static RulesFragment newInstance() {
-        return new RulesFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -29,10 +33,7 @@ public class RulesFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(RulesViewModel.class);
-        // TODO: Use the ViewModel
+    public void onDestroyView() {
+        super.onDestroyView();
     }
-
 }

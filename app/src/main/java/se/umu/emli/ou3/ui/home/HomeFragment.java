@@ -18,6 +18,15 @@ import java.util.Objects;
 
 import se.umu.emli.ou3.R;
 
+/**
+ * View class.
+ *
+ * Handles UI and operating system interactions for the user to start the game or go to add song
+ * page for adding songs.
+ *
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
