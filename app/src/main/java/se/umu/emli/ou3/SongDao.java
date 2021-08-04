@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Model class.
@@ -38,12 +39,21 @@ public interface SongDao {
     @Query("SELECT * FROM song_table WHERE addedByUser== 1 ORDER BY title DESC")
     LiveData<List<Song>> getAllUserAddedSongs();
 
+    @Query("SELECT * FROM song_table ORDER BY RANDOM() LIMIT 1")
+    Song getRandomSong();
+
     /**
      * Denna ej heller implementerad.
      * @return
-     */
-    @Query("SELECT * FROM song_table ORDER BY RANDOM() LIMIT 1")
+
+    @Query("SELECT * FROM song_table ORDER BY RANDOM() LIMIT 5")
+    Queue<Song> randoms();
+
+
+
+    @Query("SELECT * FROM song_table LIMIT 1 OFFSET :randomNum")
+    Song getRandomSongs(int randomNum);
     //public List<Song> getRandomSongs();
-    Song getRandomSong();
+     */
 
 }

@@ -6,6 +6,12 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 /**
  * Model class.
@@ -27,7 +33,6 @@ public class SongRepository {
         SongDataBase dataBase = SongDataBase.getInstance(application);
         songDao = dataBase.songdao();
         allSongs = songDao.getAllSongs();
-
     }
 
     public void insert(Song song){ new Thread(new InsertTask(songDao,song)).start();}
@@ -36,19 +41,27 @@ public class SongRepository {
 
     public void delete(Song song){ new Thread(new DeleteTask(songDao,song)).start();}
 
+    public Song getRandomSong(){
+        Callable callable = new GetRandomTask(songDao);
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        Future futureTask = service.submit(callable);
+        Song randomSong = null;
+        try {
+            randomSong = (Song)futureTask.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        finally {
+            service.shutdown();
+        }
+        return randomSong;
+    }
+
     public LiveData<List<Song>> getAllSongs(){
         return allSongs;
     }
-
-    /**
-     * TODO: är de såhär man gör? haha
-     * @return
-     */
-    public Song getRandomSong(){
-        RandomTask task;
-        new Thread(task = new RandomTask(songDao)).start();
-        return task.get();}
-
     private static class InsertTask implements Runnable{
         private SongDao songDao;
         private Song song;
@@ -94,22 +107,17 @@ public class SongRepository {
         }
     }
 
-    private static class RandomTask implements Runnable{
-
+    private static class GetRandomTask implements Callable<Song> {
         private SongDao songDao;
-        private Song song;
 
-        public RandomTask(SongDao songDao){
+
+        public GetRandomTask(SongDao songDao){
             this.songDao = songDao;
         }
 
         @Override
-        public void run() {
-            song = songDao.getRandomSong();
-        }
-
-        public Song get(){
-            return song;
+        public Song call() throws Exception {
+            return songDao.getRandomSong();
         }
     }
 }

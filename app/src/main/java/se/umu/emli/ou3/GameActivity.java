@@ -12,7 +12,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -38,6 +44,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     private static final String TIME_FORMAT = "%02d:%02d";
 
+    List<Song> allsong2 = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,15 +60,11 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         startCountDown();
 
-        /**
-         *
-
+        //allt nedan är knäppt.
         Song song = repository.getRandomSong();
-
         songArtist.setText(song.getArtist());
         songTitle.setText(song.getTitle());
-        songLyrics.setText(song.getLyrics());         */
-
+        songLyrics.setText(song.getLyrics());
 
     }
 
