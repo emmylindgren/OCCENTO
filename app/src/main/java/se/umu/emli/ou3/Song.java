@@ -19,7 +19,6 @@ public class Song {
      */
     @PrimaryKey(autoGenerate = true)
     private int id;
-
     private String title;
     private String artist;
     private String lyrics;

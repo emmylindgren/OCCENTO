@@ -1,6 +1,7 @@
 package se.umu.emli.ou3;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -8,8 +9,22 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +39,7 @@ import java.util.List;
 public abstract class SongDataBase extends RoomDatabase {
 
     private static SongDataBase instance;
-
+    private static Context context;
     public abstract SongDao songdao();
 
     /**
@@ -36,6 +51,7 @@ public abstract class SongDataBase extends RoomDatabase {
      * @return the db created.
      */
     public static synchronized SongDataBase getInstance(Context context){
+        SongDataBase.context = context;
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     SongDataBase.class, "song_database").fallbackToDestructiveMigration()
@@ -49,7 +65,7 @@ public abstract class SongDataBase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull @org.jetbrains.annotations.NotNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            new Thread(new PopulateDbTask(instance)).start();
+            new Thread(new PopulateDbTask(instance, context)).start();
         }
     };
 
@@ -58,25 +74,31 @@ public abstract class SongDataBase extends RoomDatabase {
      */
     private static class PopulateDbTask implements Runnable{
         private SongDao songDao;
+        private Context context;
 
-        private PopulateDbTask(SongDataBase db){
+        private PopulateDbTask(SongDataBase db, Context context){
             songDao = db.songdao();
+            this.context = context;
         }
 
         @Override
         public void run() {
-            ArrayList<Song> startSongs = getStartingSongs();
 
-            for (Song song:startSongs) {
-                songDao.insert(song);
+            Gson gson = new Gson();
+
+            try {
+                InputStream inputStream = context.getAssets().open("songs.json");
+                InputStreamReader inputStreamReader =new InputStreamReader(inputStream);
+                BufferedReader reader = new BufferedReader(inputStreamReader);
+
+                List<Song> dbSongs = gson.fromJson(reader,new TypeToken<List<Song>>(){}.getType());
+
+                for (Song song:dbSongs) {
+                    songDao.insert(song);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
-
-        @NotNull
-        private ArrayList<Song> getStartingSongs() {
-            ArrayList<Song> startSongs = new ArrayList<Song>();
-            startSongs.add(new Song("Young dad","HOFFMAESTRO","hej",false));
-            return startSongs;
         }
     }
 }
