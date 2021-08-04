@@ -19,7 +19,8 @@
     <string name="maxCharacterCount">0/100</string>
 
 
-    <string name="låtText">Ser det på dig med detsamma Vet att nånting har hänt Har du träffat någon annan Som kan vägen hem?</string>
+    <string name="song_lyric">Ser det på dig meddetsamma,
+    vet att nånting har hänt,har du träffat någon annan som kan vägen hem?</string>
     <string name="artist"><![CDATA[Norlie & KKV]]></string>
     <string name="game_title">occento</string>
     <string name="gameRules">Spelregler</string>

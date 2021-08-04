@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Model class.
@@ -38,6 +39,15 @@ public class SongRepository {
     public LiveData<List<Song>> getAllSongs(){
         return allSongs;
     }
+
+    /**
+     * TODO: är de såhär man gör? haha
+     * @return
+     */
+    public Song getRandomSong(){
+        RandomTask task;
+        new Thread(task = new RandomTask(songDao)).start();
+        return task.get();}
 
     private static class InsertTask implements Runnable{
         private SongDao songDao;
@@ -81,6 +91,25 @@ public class SongRepository {
         @Override
         public void run() {
             songDao.delete(song);
+        }
+    }
+
+    private static class RandomTask implements Runnable{
+
+        private SongDao songDao;
+        private Song song;
+
+        public RandomTask(SongDao songDao){
+            this.songDao = songDao;
+        }
+
+        @Override
+        public void run() {
+            song = songDao.getRandomSong();
+        }
+
+        public Song get(){
+            return song;
         }
     }
 }

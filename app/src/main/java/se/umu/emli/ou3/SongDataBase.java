@@ -8,6 +8,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Model class.
  * SQLite Room database for containing Song entities.
@@ -60,9 +65,18 @@ public abstract class SongDataBase extends RoomDatabase {
 
         @Override
         public void run() {
-            //TODO: Lägg till fler låtar här.
-            songDao.insert(new Song("Sång1","Artist1","Bla bla bla",false));
+            ArrayList<Song> startSongs = getStartingSongs();
 
+            for (Song song:startSongs) {
+                songDao.insert(song);
+            }
+        }
+
+        @NotNull
+        private ArrayList<Song> getStartingSongs() {
+            ArrayList<Song> startSongs = new ArrayList<Song>();
+            startSongs.add(new Song("Young dad","HOFFMAESTRO","hej",false));
+            return startSongs;
         }
     }
 }

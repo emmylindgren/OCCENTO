@@ -38,4 +38,12 @@ public interface SongDao {
     @Query("SELECT * FROM song_table WHERE addedByUser== 1 ORDER BY title DESC")
     LiveData<List<Song>> getAllUserAddedSongs();
 
+    /**
+     * Denna ej heller implementerad.
+     * @return
+     */
+    @Query("SELECT * FROM song_table ORDER BY RANDOM() LIMIT 1")
+    //public List<Song> getRandomSongs();
+    Song getRandomSong();
+
 }

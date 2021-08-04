@@ -5,18 +5,16 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Build;
+
 import android.os.Bundle;
-import android.util.Log;
+import android.os.CountDownTimer;
 import android.view.View;
-import android.view.WindowInsetsAnimationController;
-import android.view.WindowManager;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * TODO: ViewModel class eller Viewclass?
@@ -29,7 +27,16 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor sensor;
 
-    private TextView lyrics;
+
+    private TextView textViewtimer;
+    private TextView songLyrics;
+    private TextView songTitle;
+    private TextView songArtist;
+
+    private CountDownTimer countDownTimer;
+    private SongRepository repository;
+
+    private static final String TIME_FORMAT = "%02d:%02d";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +46,51 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         addViewFlags();
         setUpAccelerometerSensor();
 
-        lyrics = findViewById(R.id.songLyric);
+        repository = new SongRepository(getApplication());
+
+        setUpViewItems();
+
+        startCountDown();
+
+        /**
+         *
+
+        Song song = repository.getRandomSong();
+
+        songArtist.setText(song.getArtist());
+        songTitle.setText(song.getTitle());
+        songLyrics.setText(song.getLyrics());         */
 
 
+    }
 
+    private void setUpViewItems() {
+        textViewtimer = findViewById(R.id.timer);
+        songLyrics = findViewById(R.id.songLyric);
+        songTitle = findViewById(R.id.songTitle);
+        songArtist = findViewById(R.id.songArtist);
+    }
+
+    private void startCountDown() {
+        countDownTimer = new CountDownTimer(180200, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                textViewtimer.setText("" + String.format(TIME_FORMAT,
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+            }
+
+            public void onFinish() {
+                textViewtimer.setText("done!");
+
+            }
+        }.start();
+    }
+
+    void cancelTimer() {
+        if(countDownTimer!=null)
+            countDownTimer.cancel();
     }
 
     /**
@@ -84,15 +132,15 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
          */
 
         if (x < -6) {
-            lyrics.setText("Nedåt");
+            songLyrics.setText("Nedåt");
             //Då passar man. Sätt in en metod typ "passSong" eller så
         }
         else if (x > 6) {
-            lyrics.setText("Uppåt");
+            songLyrics.setText("Uppåt");
             //Då får man poäng. Sätt in en metod typ räkna poäng och sen gå vidare? (samma som passa?)
         }
         else {
-            lyrics.setText("ingen");
+            //Här har vi ingen lutning
         }
 
     }
@@ -115,5 +163,11 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     protected void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cancelTimer();
     }
 }

@@ -37,8 +37,6 @@ public class AddSongViewModel extends AndroidViewModel {
         repository = new SongRepository(application);
     }
 
-
-
     public void insert(Song song){ repository.insert(song);}
 
 }
