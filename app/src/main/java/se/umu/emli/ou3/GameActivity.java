@@ -12,13 +12,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -33,7 +28,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor sensor;
 
-
     private TextView textViewtimer;
     private TextView songLyrics;
     private TextView songTitle;
@@ -41,6 +35,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     private CountDownTimer countDownTimer;
     private SongRepository repository;
+
+    private Queue<Song> randomSongs;
 
     private static final String TIME_FORMAT = "%02d:%02d";
 
@@ -58,19 +54,27 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         setUpViewItems();
 
         startCountDown();
+        setNextRandomSong();
 
-        //Song song = repository.getRandomSong();
+    }
 
-        Queue<Song> randomSongs = repository.getRandomSongs();
+    /**
+     * Gets a queue of random songs to use for game and sets first song in queue to current song,
+     * aka displays the song.
+     */
+    private void setNextRandomSong() {
 
-        Song song = randomSongs.poll();
-        if(song == null){
-            //Då måste vi fylla på den igen. kanske kolla kön istället de är nog snyggare?
+        if(randomSongs == null || randomSongs.isEmpty()){
+            randomSongs = repository.getRandomSongs();
         }
+
+        setCurrentSongView(randomSongs.poll());
+    }
+
+    private void setCurrentSongView(Song song) {
         songArtist.setText(song.getArtist());
         songTitle.setText(song.getTitle());
         songLyrics.setText(song.getLyrics());
-
     }
 
     private void setUpViewItems() {
@@ -92,6 +96,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
             public void onFinish() {
                 textViewtimer.setText("done!");
+                //avsluta spelet.
 
             }
         }.start();
@@ -133,9 +138,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         float x = event.values[2];
 
         /**
-         *
-         * TODO: Ta bort denna, för testning.
-         * lyrics.setText(Float.toString(x));
          *
          * TODO: Kalibrera denna nedan? Kanske måste pausa den också mellan gångerna?
          */

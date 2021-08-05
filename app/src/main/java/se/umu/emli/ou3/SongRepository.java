@@ -44,24 +44,6 @@ public class SongRepository {
 
     public void delete(Song song){ new Thread(new DeleteTask(songDao,song)).start();}
 
-    public Song getRandomSong(){
-        Callable callable = new GetRandomTask(songDao);
-        ExecutorService service = Executors.newSingleThreadExecutor();
-        Future futureTask = service.submit(callable);
-        Song randomSong = null;
-        try {
-            randomSong = (Song)futureTask.get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        finally {
-            service.shutdown();
-        }
-        return randomSong;
-    }
-
     public Queue<Song> getRandomSongs(){
         Callable callable = new GetRandomsTask(songDao);
         ExecutorService service = Executors.newSingleThreadExecutor();
@@ -126,20 +108,6 @@ public class SongRepository {
         @Override
         public void run() {
             songDao.delete(song);
-        }
-    }
-
-    private static class GetRandomTask implements Callable<Song> {
-        private SongDao songDao;
-
-
-        public GetRandomTask(SongDao songDao){
-            this.songDao = songDao;
-        }
-
-        @Override
-        public Song call() throws Exception {
-            return songDao.getRandomSong();
         }
     }
 
