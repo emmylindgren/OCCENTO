@@ -13,4 +13,9 @@
     <color name="secondary_blue">#11D4FF</color>
     <color name="secondary_light_blue">#6FFFFF</color>
 
+    <color name="green_for_points">#87FF7D</color>
+    <color name="red_for_pass">#FD5F5F</color>
+
+
+
 </resources>
