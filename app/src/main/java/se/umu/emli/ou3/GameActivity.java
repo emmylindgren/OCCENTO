@@ -44,7 +44,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     private static final String TIME_FORMAT = "%02d:%02d";
 
-    List<Song> allsong2 = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +59,14 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
         startCountDown();
 
-        //allt nedan är knäppt.
-        Song song = repository.getRandomSong();
+        //Song song = repository.getRandomSong();
+
+        Queue<Song> randomSongs = repository.getRandomSongs();
+
+        Song song = randomSongs.poll();
+        if(song == null){
+            //Då måste vi fylla på den igen. kanske kolla kön istället de är nog snyggare?
+        }
         songArtist.setText(song.getArtist());
         songTitle.setText(song.getTitle());
         songLyrics.setText(song.getLyrics());

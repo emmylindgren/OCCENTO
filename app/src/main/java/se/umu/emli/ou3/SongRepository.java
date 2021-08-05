@@ -4,7 +4,10 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -57,6 +60,25 @@ public class SongRepository {
             service.shutdown();
         }
         return randomSong;
+    }
+
+    public Queue<Song> getRandomSongs(){
+        Callable callable = new GetRandomsTask(songDao);
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        Future futureTask = service.submit(callable);
+        Queue<Song> randomSongsQueue = null;
+        try {
+            randomSongsQueue = (Queue<Song>) futureTask.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        finally {
+            service.shutdown();
+        }
+
+        return randomSongsQueue;
     }
 
     public LiveData<List<Song>> getAllSongs(){
@@ -118,6 +140,20 @@ public class SongRepository {
         @Override
         public Song call() throws Exception {
             return songDao.getRandomSong();
+        }
+    }
+
+    private static class GetRandomsTask implements Callable<Queue<Song>> {
+        private SongDao songDao;
+
+        public GetRandomsTask(SongDao songDao){
+            this.songDao = songDao;
+        }
+
+        @Override
+        public Queue<Song> call() throws Exception {
+            List<Song> randomSongsList = songDao.getRandomSongs();
+            return new LinkedList<>(randomSongsList);
         }
     }
 }

@@ -42,6 +42,9 @@ public interface SongDao {
     @Query("SELECT * FROM song_table ORDER BY RANDOM() LIMIT 1")
     Song getRandomSong();
 
+    @Query("SELECT * FROM song_table ORDER BY RANDOM() LIMIT 10")
+    List<Song> getRandomSongs();
+
     /**
      * Denna ej heller implementerad.
      * @return
