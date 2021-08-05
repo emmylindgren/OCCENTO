@@ -8,12 +8,13 @@ import android.hardware.SensorManager;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
-import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 
@@ -34,11 +35,13 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private TextView songArtist;
 
     private CountDownTimer countDownTimer;
-    private SongRepository repository;
+  //  private SongRepository repository;
 
-    private Queue<Song> randomSongs;
-
+    private RandomSongGenerator randomSongGenerator;
+  //  private Queue<Song> randomSongs;
     private static final String TIME_FORMAT = "%02d:%02d";
+
+    private Handler handler = new Handler();
 
 
     @Override
@@ -49,7 +52,8 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         addViewFlags();
         setUpAccelerometerSensor();
 
-        repository = new SongRepository(getApplication());
+        randomSongGenerator = new RandomSongGenerator(getApplication());
+       // repository = new SongRepository(getApplication());
 
         setUpViewItems();
 
@@ -58,17 +62,17 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    /**
-     * Gets a queue of random songs to use for game and sets first song in queue to current song,
-     * aka displays the song.
-     */
+
     private void setNextRandomSong() {
+        /**
+         *
 
         if(randomSongs == null || randomSongs.isEmpty()){
             randomSongs = repository.getRandomSongs();
         }
+         */
 
-        setCurrentSongView(randomSongs.poll());
+        setCurrentSongView(randomSongGenerator.getRandomSong());
     }
 
     private void setCurrentSongView(Song song) {
@@ -142,18 +146,35 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
          * TODO: Kalibrera denna nedan? Kanske måste pausa den också mellan gångerna?
          */
 
-        if (x < -6) {
-            songLyrics.setText("Nedåt");
-            //Då passar man. Sätt in en metod typ "passSong" eller så
+        if (x < -8) {
+            songLyrics.setText("Fel!");
+            sensorManager.unregisterListener(this);
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    setUpNewSong();
+                }
+            }, 2000);
+            // här vill vi visa "fel"
+            //Räkna inte poäng men eventuellt räkna hur många låtar körda?
         }
-        else if (x > 6) {
+        else if (x > 8) {
             songLyrics.setText("Uppåt");
-            //Då får man poäng. Sätt in en metod typ räkna poäng och sen gå vidare? (samma som passa?)
+            //setCurrentSongView(randomSongGenerator.getRandomSong());
+            //Vill visa typ "rätt!" här eller nåt. PLUS måste pausa så man inte råkar dubbla
+            //Då får man poäng. Sätt in en metod typ räkna poäng
+            View view = findViewById(R.id.songLyric);
+            View root = view.getRootView();
+            root.setBackgroundColor(ContextCompat.getColor(this,R.color.secondary_blue));
         }
         else {
             //Här har vi ingen lutning
         }
 
+    }
+
+    private void setUpNewSong() {
+        setCurrentSongView(randomSongGenerator.getRandomSong());
+        sensorManager.registerListener(this,sensor,SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -164,7 +185,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume(){
         super.onResume();
-        sensorManager.registerListener(this,sensor,SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this,sensor,SensorManager.SENSOR_DELAY_UI);
     }
 
     /**
