@@ -82,15 +82,30 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
         songArtist = root.findViewById(R.id.songArtist);
     }
 
+    /**
+     * Updates the UI timer to show user how much time is left on their turn. When
+     * timer hits 0 seconds left, the game round is ended.
+     * @param timeLeft
+     */
     private void updateTimer(Long timeLeft){
         textViewtimer.setText(String.format(Locale.GERMAN,TIME_FORMAT,
                 TimeUnit.MILLISECONDS.toMinutes(timeLeft),
                 TimeUnit.MILLISECONDS.toSeconds(timeLeft) -
                         TimeUnit.MINUTES.toSeconds(
                                 TimeUnit.MILLISECONDS.toMinutes(timeLeft))));
-        if(timeLeft <= 0){
-            ((GameActivity) requireActivity()).goToResults();
+        if(timeLeft == 0){
+            endRound();
         }
+    }
+
+    private void endRound() {
+        //TODO: Ta bort detta sen.
+        //((GameActivity) requireActivity()).goToResults();
+        Bundle result = new Bundle();
+        result.putInt("Points",gameRoundViewmodel.getPointsThisRound());
+        result.putInt("TotalSongs",gameRoundViewmodel.getTotalOfSongsThisRound());
+        getParentFragmentManager().setFragmentResult("gameResults", result);
+
     }
 
     /**

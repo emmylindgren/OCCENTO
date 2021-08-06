@@ -12,13 +12,17 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,8 +39,8 @@ import se.umu.emli.ou3.ui.gameRound.GameRoundFragment;
  */
 public class GameActivity extends AppCompatActivity {
 
-
     private NavController navController;
+    private FragmentManager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,14 +48,32 @@ public class GameActivity extends AppCompatActivity {
 
         addViewFlags();
 
-          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        goToGameRound();
+        setUpFragmentResultListeners();
+    }
 
-                 ft.replace(R.id.host_fragment_game, new GameRoundFragment());
+    private void setUpFragmentResultListeners() {
+        manager.setFragmentResultListener("gameResults", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull @NotNull String requestKey, @NonNull @NotNull Bundle result) {
+                int totalPoints = result.getInt("Points");
+                int totalNrOfSongs = result.getInt("TotalSongs");
 
-                  ft.commit();
+                //TODO: TA bort detta de är för felsökning.
+                System.out.println(totalPoints);
+                System.out.println(totalNrOfSongs);
 
+                goToResults(totalPoints,totalNrOfSongs);
 
+            }
+        });
+    }
 
+    private void goToGameRound() {
+        manager = getSupportFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.replace(R.id.host_fragment_game, new GameRoundFragment());
+        ft.commit();
     }
 
     /**
@@ -67,15 +89,18 @@ public class GameActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(flags);
     }
 
-    public void goToResults(){
+    public void goToResults(int totalPoints,int totalNrOfRounds){
 
-          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Bundle gameResults = new Bundle();
+        gameResults.putInt("totalPoints",totalPoints);
+        gameResults.putInt("totalNrOfRounds",totalNrOfRounds);
 
-                  ft.replace(R.id.host_fragment_game, new GameResultFragment());
-
-                  ft.commit();
-
-
+        FragmentTransaction t = manager
+                .beginTransaction();
+        GameResultFragment gameResultFragment = new GameResultFragment();
+        gameResultFragment.setArguments(gameResults);
+        t.replace(R.id.host_fragment_game, gameResultFragment);
+        t.addToBackStack(null);
+        t.commit();
     }
-
 }

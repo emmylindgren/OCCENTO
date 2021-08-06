@@ -4,18 +4,14 @@ import android.app.Application;
 import android.os.CountDownTimer;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import se.umu.emli.ou3.GameActivity;
-import se.umu.emli.ou3.MainActivity;
 import se.umu.emli.ou3.RandomSongGenerator;
 import se.umu.emli.ou3.Song;
+
 
 public class GameRoundViewModel extends AndroidViewModel {
     private RandomSongGenerator randomSongGenerator;
@@ -35,6 +31,14 @@ public class GameRoundViewModel extends AndroidViewModel {
         this.application= application;
     }
 
+    public int getPointsThisRound(){
+        return pointsThisRound;
+    }
+
+    public int getTotalOfSongsThisRound(){
+        return totalOfSongsThisRound;
+    }
+
     public Song getNextRandomSong(){
         return randomSongGenerator.getRandomSong();
     }
@@ -51,11 +55,11 @@ public class GameRoundViewModel extends AndroidViewModel {
     /**
      * Starts a countdown of 3 minutes and updates the UI every second, showing the user
      * how much time is left on their round. When timer is up the gameround finishes.
-     * 180200 milliseconds.
+     * TODO: Sätt tillbaka till 3 min aka 180200 milliseconds.
      *
      */
     public void startCountDown() {
-        countDownTimer = new CountDownTimer(4000, 1000) {
+        countDownTimer = new CountDownTimer(10000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timerLiveData.setValue(millisUntilFinished);
@@ -63,8 +67,7 @@ public class GameRoundViewModel extends AndroidViewModel {
 
             @Override
             public void onFinish() {
-
-                //TODO: kalla på den här ist. 
+                timerLiveData.setValue((long) 0);
             }
         }.start();
     }

@@ -1,5 +1,6 @@
 package se.umu.emli.ou3.ui.gameResult;
 
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import se.umu.emli.ou3.R;
 
 public class GameResultFragment extends Fragment {
 
-    private GameResultViewModel mViewModel;
+    private GameResultViewModel gameResultViewModel;
 
     public static GameResultFragment newInstance() {
         return new GameResultFragment();
@@ -25,14 +26,16 @@ public class GameResultFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        gameResultViewModel = new ViewModelProvider(this).get(GameResultViewModel.class);
+
+        Bundle extras = getArguments();
+        System.out.println(extras.getInt("totalPoints"));
+        System.out.println(extras.getInt("totalNrOfRounds"));
+
+
         return inflater.inflate(R.layout.fragment_game_result, container, false);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(GameResultViewModel.class);
-        // TODO: Use the ViewModel
-    }
 
 }
