@@ -34,4 +34,8 @@
     <string name="pointsInfoTitle">När får man poäng?</string>
     <string name="pointsinfoText">Det räcker med att sätta antingen titeln eller artisten för poängen.
         Men för en svårare spelomgång måste spelaren sätta både rätt titel och artist för poäng!</string>
+    <string name="total_songs_text">Totala antalet sånger:</string>
+    <string name="total_points_text">Antal poäng:</string>
+    <string name="back_to_menu_button_text">Tillbaka till menyn</string>
+    <string name="play_again_button_text">Spela igen</string>
 </resources>
