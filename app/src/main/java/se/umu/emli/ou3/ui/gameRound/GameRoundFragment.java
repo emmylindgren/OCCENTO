@@ -15,17 +15,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import se.umu.emli.ou3.GameActivity;
+import se.umu.emli.ou3.MainActivity;
 import se.umu.emli.ou3.R;
-import se.umu.emli.ou3.RandomSongGenerator;
 import se.umu.emli.ou3.Song;
 
 public class GameRoundFragment extends Fragment implements SensorEventListener {
@@ -41,9 +42,6 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     private TextView songTitle;
     private TextView songArtist;
 
-    private CountDownTimer countDownTimer;
-
-    private RandomSongGenerator randomSongGenerator;
     private static final String TIME_FORMAT = "%02d:%02d";
     boolean positionIsReset;
 
@@ -57,17 +55,18 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
 
         root = inflater.inflate(R.layout.fragment_game_round, container, false);
 
-        addViewFlags();
         setUpAccelerometerSensor();
-
-        randomSongGenerator = new RandomSongGenerator(getActivity().getApplication());
-
         setUpViewItems();
 
-        startCountDown();
-        setCurrentSongView(randomSongGenerator.getRandomSong());
+        startTimer();
+        setCurrentSongView(gameRoundViewmodel.getNextRandomSong());
 
         return root;
+    }
+
+    private void startTimer() {
+        gameRoundViewmodel.startCountDown();
+        gameRoundViewmodel.getTimerLiveData().observe(requireActivity(),this::updateTimer);
     }
 
     private void setCurrentSongView(Song song) {
@@ -83,26 +82,15 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
         songArtist = root.findViewById(R.id.songArtist);
     }
 
-    private void startCountDown() {
-        countDownTimer = new CountDownTimer(180200, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                textViewtimer.setText("" + String.format(TIME_FORMAT,
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
-                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-            }
-
-            public void onFinish() {
-                textViewtimer.setText("done!");
-                //avsluta spelet, aka byt till ett annat fragment; visa poäng fragment.
-            }
-        }.start();
-    }
-
-    void cancelTimer() {
-        if(countDownTimer!=null)
-            countDownTimer.cancel();
+    private void updateTimer(Long timeLeft){
+        textViewtimer.setText(String.format(Locale.GERMAN,TIME_FORMAT,
+                TimeUnit.MILLISECONDS.toMinutes(timeLeft),
+                TimeUnit.MILLISECONDS.toSeconds(timeLeft) -
+                        TimeUnit.MINUTES.toSeconds(
+                                TimeUnit.MILLISECONDS.toMinutes(timeLeft))));
+        if(timeLeft <= 0){
+            ((GameActivity) requireActivity()).goToResults();
+        }
     }
 
     /**
@@ -115,43 +103,36 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     }
 
     /**
-     * Adding flags to View keeping the view on fullscreen and awake for game session.
-     * TODO: dessa flaggor kanske kan va i aktiviteten?
-     */
-    private void addViewFlags() {
-        final int flags =  View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.KEEP_SCREEN_ON
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-
-        getActivity().getWindow().getDecorView().setSystemUiVisibility(flags);
-    }
-
-    /**
      * When the device moves in any direction the method is triggered.
      * Method is set to take action when device is held horizontal (against forehead) and
      * is tilted up or down, to collect points or pass on the current song.
-     * @param event
+     *
+     * A boolean is used to make sure points are not collected or songs are not passed several
+     * times for one movement.
+     * @param event, the event that is listened for.
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
         float x = event.values[2];
 
         if(positionIsReset){
+            // User tilts the phone downwards and passes the song, a new song is displayed.
             if (x < -7) {
                 positionIsReset = false;
                 updateUI(R.raw.pass, "Pass!", R.color.red_for_pass);
-                //TODO: Räkna inte poäng men eventuellt räkna hur många låtar körda?
+                gameRoundViewmodel.noPoint();
                 nextRound();
 
             }
+            //User tilts the phone upwards, gets a point and a new song is displayed.
             else if (x > 7) {
                 positionIsReset = false;
                 updateUI(R.raw.point, "Poäng!", R.color.green_for_points);
-                // TODO: Då får man poäng. Sätt in en metod typ räkna poäng
+                gameRoundViewmodel.addPoint();
                 nextRound();
             }
         }
+        // The boolean is reset when user holds the phone againts forehead again.
         else if( -7< x && x < 7) {
             positionIsReset = true;
         }
@@ -183,7 +164,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     }
 
     private void setUpNewSongRound() {
-        setCurrentSongView(randomSongGenerator.getRandomSong());
+        setCurrentSongView(gameRoundViewmodel.getNextRandomSong());
         setBackground(R.color.primary_green);
         sensorManager.registerListener(this, sensor,SensorManager.SENSOR_DELAY_UI);
     }
@@ -211,7 +192,6 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //TODO: Avregistrera lyssnare också? det kanske görs automatiskt?
-        cancelTimer();
+        gameRoundViewmodel.cancelTimer();
     }
 }
