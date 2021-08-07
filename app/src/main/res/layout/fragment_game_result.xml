@@ -7,71 +7,57 @@
     tools:context=".ui.gameResult.GameResultFragment"
     android:background="@color/primary_green">
 
-    <LinearLayout
-        android:id="@+id/scoreInfo"
+    <TextView
+        android:id="@+id/nr_Of_points_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:text="@string/total_points_text"
+        android:fontFamily="@font/rubik_mono_one"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/play_again_button">
+        android:layout_marginTop="80dp"/>
+    <TextView
+        android:id="@+id/nr_of_points_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/rubik_mono_one"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@id/nr_Of_points_text"
+        app:layout_constraintTop_toTopOf="@id/nr_Of_points_text"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <TextView
-                android:id="@+id/nr_Of_points_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/total_points_text"
-                android:fontFamily="@font/rubik_mono_one"
-                android:textSize="30sp"/>
-            <TextView
-                android:id="@+id/nr_of_points_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:layout_marginStart="10dp"
-                android:fontFamily="@font/rubik_mono_one"
-                android:textSize="30sp"/>
+    <TextView
+        android:id="@+id/total_nr_of_songs_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/total_songs_text"
+        android:fontFamily="@font/rubik_mono_one"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@id/nr_Of_points_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/total_nr_of_songs_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/rubik_mono_one"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@id/total_nr_of_songs_text"
+        app:layout_constraintTop_toTopOf="@id/total_nr_of_songs_text"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-
-            <TextView
-                android:id="@+id/total_nr_of_songs_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/total_songs_text"
-                android:fontFamily="@font/rubik_mono_one"
-                android:textSize="30sp"/>
-            <TextView
-                android:id="@+id/total_nr_of_songs_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:layout_marginStart="10dp"
-                android:fontFamily="@font/rubik_mono_one"
-                android:textSize="30sp"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
 
     <Button
         android:id="@+id/play_again_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/play_again_button_text"
-        app:layout_constraintTop_toBottomOf="@id/scoreInfo"
+        app:layout_constraintTop_toTopOf="@id/total_nr_of_songs_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
