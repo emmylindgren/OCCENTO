@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +25,6 @@ import android.widget.TextView;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import se.umu.emli.ou3.GameActivity;
-import se.umu.emli.ou3.MainActivity;
 import se.umu.emli.ou3.R;
 import se.umu.emli.ou3.Song;
 
@@ -44,6 +43,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
 
     private static final String TIME_FORMAT = "%02d:%02d";
     boolean positionIsReset;
+    boolean roundIsStarted = false;
 
     private Handler handler = new Handler();
 
@@ -55,11 +55,33 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
 
         root = inflater.inflate(R.layout.fragment_game_round, container, false);
 
-        setUpAccelerometerSensor();
         setUpViewItems();
+        setUpAccelerometerSensor();
 
-        startTimer();
-        setCurrentSongView(gameRoundViewmodel.getNextRandomSong());
+
+        CountDownTimer countDownTimer = new CountDownTimer(5000, 1000) {
+            int countDownInt = 3;
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if(countDownInt == 0){
+                    songLyrics.setText("KÖR!");
+                }
+                else{
+                    songLyrics.setText(Integer.toString(countDownInt));
+                    countDownInt--;
+                }
+            }
+
+            @Override
+            public void onFinish() {
+
+                roundIsStarted = true;
+                startTimer();
+                setCurrentSongView(gameRoundViewmodel.getNextRandomSong());
+            }
+        }.start();
+
+
 
         return root;
     }
@@ -80,6 +102,9 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
         songLyrics = root.findViewById(R.id.songLyric);
         songTitle = root.findViewById(R.id.songTitle);
         songArtist = root.findViewById(R.id.songArtist);
+
+        songTitle.setText("");
+        songArtist.setText("");
     }
 
     /**
@@ -99,13 +124,11 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     }
 
     private void endRound() {
-        //TODO: Ta bort detta sen.
-        //((GameActivity) requireActivity()).goToResults();
+        gameRoundViewmodel.cancelTimer();
         Bundle result = new Bundle();
         result.putInt("Points",gameRoundViewmodel.getPointsThisRound());
         result.putInt("TotalSongs",gameRoundViewmodel.getTotalOfSongsThisRound());
         getParentFragmentManager().setFragmentResult("gameResults", result);
-
     }
 
     /**
@@ -114,7 +137,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     private void setUpAccelerometerSensor() {
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        positionIsReset = true;
+        positionIsReset = false;
     }
 
     /**
@@ -130,7 +153,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         float x = event.values[2];
 
-        if(positionIsReset){
+        if(positionIsReset && roundIsStarted){
             // User tilts the phone downwards and passes the song, a new song is displayed.
             if (x < -7) {
                 positionIsReset = false;
@@ -154,7 +177,6 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     }
 
     private void updateUI(int p, String s, int p2) {
-        sensorManager.unregisterListener(this);
         playSoundEffect(p);
         blankOutOldSong(s);
         setBackground(p2);
@@ -165,8 +187,9 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     }
 
     private void playSoundEffect(int p) {
-        MediaPlayer.create(requireContext(), p).start();
+       MediaPlayer.create(requireContext(), p).start();
     }
+
 
     private void blankOutOldSong(String passOrPoint) {
         songLyrics.setText(passOrPoint);
@@ -181,7 +204,6 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     private void setUpNewSongRound() {
         setCurrentSongView(gameRoundViewmodel.getNextRandomSong());
         setBackground(R.color.primary_green);
-        sensorManager.registerListener(this, sensor,SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
@@ -207,6 +229,12 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        gameRoundViewmodel.cancelTimer();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         gameRoundViewmodel.cancelTimer();
     }
 }

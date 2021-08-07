@@ -38,4 +38,5 @@
     <string name="total_points_text">Antal poäng:</string>
     <string name="back_to_menu_button_text">Tillbaka till menyn</string>
     <string name="play_again_button_text">Spela igen</string>
+    <string name="timer_start_value">03:00</string>
 </resources>

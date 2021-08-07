@@ -25,7 +25,6 @@ public class GameRoundViewModel extends AndroidViewModel {
         super(application);
         randomSongGenerator = new RandomSongGenerator(application);
         timerLiveData = new MutableLiveData<>();
-        //TODO: Måste vi nollställa denna varje gång vi skickar poängen?
         pointsThisRound= 0;
         totalOfSongsThisRound=0;
         this.application= application;

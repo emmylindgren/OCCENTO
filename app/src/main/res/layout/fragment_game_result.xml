@@ -54,7 +54,7 @@
 
     <Button
         android:id="@+id/play_again_button"
-        android:layout_width="match_parent"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:text="@string/play_again_button_text"
         app:layout_constraintTop_toTopOf="@id/total_nr_of_songs_text"
@@ -67,7 +67,7 @@
         />
     <Button
         android:id="@+id/go_to_menu_button"
-        android:layout_width="match_parent"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:text="@string/back_to_menu_button_text"
         app:layout_constraintTop_toBottomOf="@id/play_again_button"

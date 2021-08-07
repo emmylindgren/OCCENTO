@@ -1,11 +1,7 @@
 package se.umu.emli.ou3.ui.gameResult;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import se.umu.emli.ou3.GameActivity;
-import se.umu.emli.ou3.MainActivity;
 import se.umu.emli.ou3.R;
 import se.umu.emli.ou3.ui.gameRound.GameRoundFragment;
 
@@ -53,7 +47,6 @@ public class GameResultFragment extends Fragment {
 
     private void showResults() {
         Bundle extras = getArguments();
-        // TODO: detta nedan kraschar appen. den va nästlad men ej pga de?
 
         totalPoints.setText(Integer.toString(extras.getInt("totalPoints")));
         totalRounds.setText(Integer.toString(extras.getInt("totalNrOfRounds")));
