@@ -1,5 +1,6 @@
 package se.umu.emli.ou3;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -35,13 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
         setSupportActionBar(findViewById(R.id.toolbar));
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home)
                 .setOpenableLayout(drawer)
@@ -71,4 +70,5 @@ public class MainActivity extends AppCompatActivity {
     public void showAddSongFragment() {
         navController.navigate(R.id.nav_AddSong);
     }
+
 }

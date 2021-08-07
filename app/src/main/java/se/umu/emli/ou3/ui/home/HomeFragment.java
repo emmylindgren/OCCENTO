@@ -1,5 +1,6 @@
 package se.umu.emli.ou3.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Objects;
 
+import se.umu.emli.ou3.GameActivity;
 import se.umu.emli.ou3.MainActivity;
 import se.umu.emli.ou3.R;
 
@@ -44,9 +46,9 @@ public class HomeFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_home, container, false);
 
         setUpViewItems();
-
-        //TODO: Fixa så den går till add song här också vid knapptryckning.
         goToAddSongButton.setOnClickListener(v -> goToAddSong());
+        playGameButton.setOnClickListener(v->startGameRound());
+
         return root;
     }
 
@@ -57,6 +59,11 @@ public class HomeFragment extends Fragment {
 
     private void goToAddSong(){
         ((MainActivity) requireActivity()).showAddSongFragment();
+    }
+
+    private void startGameRound(){
+        Intent intent = new Intent(getActivity(), GameActivity.class);
+        startActivity(intent);
     }
 
     @Override

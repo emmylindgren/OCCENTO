@@ -100,7 +100,6 @@ public class GameActivity extends AppCompatActivity {
         GameResultFragment gameResultFragment = new GameResultFragment();
         gameResultFragment.setArguments(gameResults);
         t.replace(R.id.host_fragment_game, gameResultFragment);
-        t.addToBackStack(null);
         t.commit();
     }
 }
