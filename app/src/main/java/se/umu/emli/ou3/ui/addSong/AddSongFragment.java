@@ -72,14 +72,19 @@ public class AddSongFragment extends Fragment {
         hideKeyboard(requireView());
     }
 
+    /**
+     * Sets up listeners for the view. In this case a listener on the "save song" button and
+     * a listener on the edittext field for lyrics for counting characters for the user.
+     */
     private void setUpListeners() {
         saveSongButton.setOnClickListener(this::checkSong);
         editTextLyrics.addTextChangedListener(startTextWatcher());
     }
 
     /**
-     * Updates the views character count when user types in characters.
-     * @return
+     * Updates the view character count when user types in characters. To give user visual
+     * input counter for the lyrics field.
+     * @return a new textwatcher.
      */
     @NotNull
     private TextWatcher startTextWatcher() {
@@ -98,11 +103,14 @@ public class AddSongFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 String currentText = editable.toString();
                 int currentLength = currentText.length();
-                nrOfCharsLyrics.setText(currentLength + "/100");
+                nrOfCharsLyrics.setText(currentLength + getString(R.string.totalCharacterCount));
             }
         };
     }
 
+    /**
+     * Sets up the viewitems for the view, edit texts, textviews and the button.
+     */
     private void setUpViewItems() {
         editTextTitle = root.findViewById(R.id.title_edit_text);
         editTextArtist = root.findViewById(R.id.artist_edit_text);
@@ -112,8 +120,9 @@ public class AddSongFragment extends Fragment {
     }
 
     /**
-     * Checks if the information is filled in correctly by the user.
-     * @param root
+     * Checks if the song information is filled in correctly by the user, AKA the user
+     * left no edittext, song, artist or lyrics empty.
+     * @param root, the root view. In this case the fragment add song that was inflated.
      */
     private void checkSong(View root){
         String title = editTextTitle.getText().toString();
@@ -134,10 +143,10 @@ public class AddSongFragment extends Fragment {
     /**
      * Adds a song to db. Notifies the user that song has been added and clears the
      * input text fields to prepare for another input from user.
-     * @param root
-     * @param title
-     * @param artist
-     * @param lyrics
+     * @param root, the root view. In this case the fragment add song that was inflated.
+     * @param title, title of the song to be added.
+     * @param artist, the song to be added artists.
+     * @param lyrics, some lyrics of the song to be added.
      */
     private void addSong(View root, String title, String artist, String lyrics) {
         addSongViewModel.insert(new Song(title, artist, lyrics,true));
@@ -149,7 +158,7 @@ public class AddSongFragment extends Fragment {
 
     /**
      * Hides the keyboard.
-     * @param view
+     * @param view, the root view. In this case the fragment add song that was inflated.
      */
     private void hideKeyboard(View view){
         InputMethodManager imm = (InputMethodManager) requireContext().
