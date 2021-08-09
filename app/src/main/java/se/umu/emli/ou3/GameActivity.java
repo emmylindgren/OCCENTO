@@ -11,6 +11,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,8 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -101,5 +104,12 @@ public class GameActivity extends AppCompatActivity {
         gameResultFragment.setArguments(gameResults);
         t.replace(R.id.host_fragment_game, gameResultFragment);
         t.commit();
+    }
+
+    //TODO: ta bort denna.
+    public void finishing(){
+        finish();
+        /*Toast toast=Toast. makeText(getApplicationContext(),"Hello Javatpoint",Toast. LENGTH_SHORT);
+        toast. show();*/
     }
 }

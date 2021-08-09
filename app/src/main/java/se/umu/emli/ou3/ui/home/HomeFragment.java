@@ -15,11 +15,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Objects;
 
 import se.umu.emli.ou3.GameActivity;
 import se.umu.emli.ou3.MainActivity;
 import se.umu.emli.ou3.R;
+import se.umu.emli.ou3.SongRepository;
 
 /**
  * View class.
@@ -62,8 +65,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void startGameRound(){
-        Intent intent = new Intent(getActivity(), GameActivity.class);
-        startActivity(intent);
+        SongRepository repository = new SongRepository(getActivity().getApplication());
+        if(repository.isSongDBEmpty()){
+            Snackbar.make(root, "Du måste ha låtar för att spela. Lägg till någon!",
+                    Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            Intent intent = new Intent(getActivity(), GameActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     @Override

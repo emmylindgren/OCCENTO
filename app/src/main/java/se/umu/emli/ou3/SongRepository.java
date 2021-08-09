@@ -44,6 +44,25 @@ public class SongRepository {
 
     public void delete(Song song){ new Thread(new DeleteTask(songDao,song)).start();}
 
+    public Boolean isSongDBEmpty(){
+        Callable callable = new GetASongTask(songDao);
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        Future futureTask = service.submit(callable);
+        Song aSong = null;
+        try {
+            aSong = (Song) futureTask.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        finally {
+            service.shutdown();
+        }
+
+        return (aSong == null);
+    }
+
     public Queue<Song> getRandomSongs(){
         Callable callable = new GetRandomsTask(songDao);
         ExecutorService service = Executors.newSingleThreadExecutor();
@@ -66,6 +85,7 @@ public class SongRepository {
     public LiveData<List<Song>> getAllSongs(){
         return allSongs;
     }
+
     private static class InsertTask implements Runnable{
         private SongDao songDao;
         private Song song;
@@ -122,6 +142,20 @@ public class SongRepository {
         public Queue<Song> call() throws Exception {
             List<Song> randomSongsList = songDao.getRandomSongs();
             return new LinkedList<>(randomSongsList);
+        }
+    }
+
+    private static class GetASongTask implements Callable<Song>{
+        private SongDao songDao;
+
+        public GetASongTask(SongDao songDao){
+            this.songDao = songDao;
+        }
+
+
+        @Override
+        public Song call() throws Exception {
+            return songDao.getASong();
         }
     }
 }

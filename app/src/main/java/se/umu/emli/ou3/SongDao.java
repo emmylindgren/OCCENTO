@@ -39,24 +39,10 @@ public interface SongDao {
     @Query("SELECT * FROM song_table WHERE addedByUser== 1 ORDER BY title DESC")
     LiveData<List<Song>> getAllUserAddedSongs();
 
-    @Query("SELECT * FROM song_table ORDER BY RANDOM() LIMIT 1")
-    Song getRandomSong();
+    @Query("SELECT * FROM song_table LIMIT 1")
+    Song getASong();
 
     @Query("SELECT * FROM song_table ORDER BY RANDOM() LIMIT 10")
     List<Song> getRandomSongs();
-
-    /**
-     * Denna ej heller implementerad.
-     * @return
-
-    @Query("SELECT * FROM song_table ORDER BY RANDOM() LIMIT 5")
-    Queue<Song> randoms();
-
-
-
-    @Query("SELECT * FROM song_table LIMIT 1 OFFSET :randomNum")
-    Song getRandomSongs(int randomNum);
-    //public List<Song> getRandomSongs();
-     */
 
 }

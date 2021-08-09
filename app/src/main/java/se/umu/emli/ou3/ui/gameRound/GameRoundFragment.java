@@ -22,11 +22,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import se.umu.emli.ou3.GameActivity;
 import se.umu.emli.ou3.R;
 import se.umu.emli.ou3.Song;
+import se.umu.emli.ou3.ui.home.HomeFragment;
 
 /**
  * View class.
@@ -76,9 +80,22 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
 
         root = inflater.inflate(R.layout.fragment_game_round, container, false);
 
+        //Detta funkar men ah..TODO: Ta bort detta är hanterat redan i mainactiviy
+        if(!gameRoundViewmodel.doesSongExists()){
+            System.out.println("finns ingen sång");
+            /*getActivity().onBackPressed();
+            return root;*/
+            ((GameActivity)getActivity()).finishing();
+            return root;
+        }
+
+
+
         setUpViewItems();
         setUpAccelerometerSensor();
         startTheStartingCountdown();
+
+
 
         return root;
     }
