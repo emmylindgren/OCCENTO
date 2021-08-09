@@ -1,38 +1,20 @@
 package se.umu.emli.ou3;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.TimeUnit;
-
 import se.umu.emli.ou3.ui.gameResult.GameResultFragment;
-import se.umu.emli.ou3.ui.gameResult.GameResultViewModel;
 import se.umu.emli.ou3.ui.gameRound.GameRoundFragment;
-
 
 /**
  * TODO: ViewModel class eller Viewclass?
@@ -42,7 +24,6 @@ import se.umu.emli.ou3.ui.gameRound.GameRoundFragment;
  */
 public class GameActivity extends AppCompatActivity {
 
-    private NavController navController;
     private FragmentManager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +43,7 @@ public class GameActivity extends AppCompatActivity {
                 int totalPoints = result.getInt("Points");
                 int totalNrOfSongs = result.getInt("TotalSongs");
 
-                //TODO: TA bort detta de är för felsökning.
-                System.out.println(totalPoints);
-                System.out.println(totalNrOfSongs);
-
                 goToResults(totalPoints,totalNrOfSongs);
-
             }
         });
     }
@@ -104,12 +80,5 @@ public class GameActivity extends AppCompatActivity {
         gameResultFragment.setArguments(gameResults);
         t.replace(R.id.host_fragment_game, gameResultFragment);
         t.commit();
-    }
-
-    //TODO: ta bort denna.
-    public void finishing(){
-        finish();
-        /*Toast toast=Toast. makeText(getApplicationContext(),"Hello Javatpoint",Toast. LENGTH_SHORT);
-        toast. show();*/
     }
 }

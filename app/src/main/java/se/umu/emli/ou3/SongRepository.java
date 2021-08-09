@@ -25,6 +25,8 @@ import java.util.concurrent.FutureTask;
  * starts a new thread for calling the operation. This is because Room doesn't allow database
  * operations on the main thread.
  *
+ * TODO: Kommentera resten av koden.
+ *
  * @author Emmy Lindgren, emli.
  * @version 1.0
  */
@@ -44,13 +46,13 @@ public class SongRepository {
 
     public void delete(Song song){ new Thread(new DeleteTask(songDao,song)).start();}
 
-    public Boolean isSongDBEmpty(){
+    public boolean isSongDBEmpty(){
         Callable callable = new GetASongTask(songDao);
         ExecutorService service = Executors.newSingleThreadExecutor();
         Future futureTask = service.submit(callable);
         Song aSong = null;
         try {
-            aSong = (Song) futureTask.get();
+            aSong = (Song)futureTask.get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -151,7 +153,6 @@ public class SongRepository {
         public GetASongTask(SongDao songDao){
             this.songDao = songDao;
         }
-
 
         @Override
         public Song call() throws Exception {

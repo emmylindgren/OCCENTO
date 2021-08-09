@@ -80,22 +80,9 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
 
         root = inflater.inflate(R.layout.fragment_game_round, container, false);
 
-        //Detta funkar men ah..TODO: Ta bort detta är hanterat redan i mainactiviy
-        if(!gameRoundViewmodel.doesSongExists()){
-            System.out.println("finns ingen sång");
-            /*getActivity().onBackPressed();
-            return root;*/
-            ((GameActivity)getActivity()).finishing();
-            return root;
-        }
-
-
-
         setUpViewItems();
         setUpAccelerometerSensor();
         startTheStartingCountdown();
-
-
 
         return root;
     }

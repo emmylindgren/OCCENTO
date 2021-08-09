@@ -26,8 +26,27 @@ import se.umu.emli.ou3.ui.addSong.AddSongFragment;
  */
 public class HomeViewModel extends AndroidViewModel {
 
+    private SongRepository repository;
+    private Application application;
+
     public HomeViewModel(@NonNull @NotNull Application application) {
         super(application);
+        this.application = application;
+        startUpDB();
+    }
+
+    /**
+     * Starts up the Song DB by creating a repository. DB is NOT created until you perform a
+     * concrete operation on it, such as invoking a @Dao method that hits the database. Therefore
+     * a call is made to perform an operation it so that DB is created.
+     */
+    private void startUpDB(){
+        repository = new SongRepository(application);
+        repository.isSongDBEmpty();
+    }
+
+    public boolean DBIsEmpty(){
+        return repository.isSongDBEmpty();
     }
 
 

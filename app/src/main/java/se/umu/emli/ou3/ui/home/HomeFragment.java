@@ -49,10 +49,15 @@ public class HomeFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_home, container, false);
 
         setUpViewItems();
-        goToAddSongButton.setOnClickListener(v -> goToAddSong());
-        playGameButton.setOnClickListener(v->startGameRound());
+        setUpListeners();
 
         return root;
+    }
+
+
+    private void setUpListeners() {
+        goToAddSongButton.setOnClickListener(v -> goToAddSong());
+        playGameButton.setOnClickListener(v->startGameRound());
     }
 
     private void setUpViewItems() {
@@ -65,8 +70,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void startGameRound(){
-        SongRepository repository = new SongRepository(getActivity().getApplication());
-        if(repository.isSongDBEmpty()){
+        if(homeViewModel.DBIsEmpty()){
             Snackbar.make(root, "Du måste ha låtar för att spela. Lägg till någon!",
                     Snackbar.LENGTH_LONG).show();
         }
@@ -74,7 +78,6 @@ public class HomeFragment extends Fragment {
             Intent intent = new Intent(getActivity(), GameActivity.class);
             startActivity(intent);
         }
-
     }
 
     @Override

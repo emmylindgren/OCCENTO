@@ -100,11 +100,6 @@ public class GameRoundViewModel extends AndroidViewModel {
             countDownTimer.cancel();
     }
 
-    //TODO: Ta bort denna
-    public Boolean doesSongExists(){
-        return randomSongGenerator.doesSongExists();
-    }
-
     /**
      * Updating the livedata for the timer.
      * @return a long of how much time is left on timer.

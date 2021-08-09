@@ -29,11 +29,4 @@ public class RandomSongGenerator {
 
         return randomSongQueue.poll();
     }
-
-    //TODO: Ta bort denna
-    public Boolean doesSongExists(){
-        return !(repository.getRandomSongs().isEmpty());
-    }
-
-
 }
