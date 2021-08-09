@@ -38,7 +38,7 @@ import se.umu.emli.ou3.ui.home.HomeFragment;
  * Handles UI and operating system interactions for the user to be playing a round of the game.
  *
  * That includes starting the round with a countdown from 3, giving the user some time to
- * settle in. After countdown a round is started, 3 minute timer is started counting down visually
+ * settle in. After initial countdown a round is started, 3 minute timer is started counting down visually
  * to the user showing how much time of the round is left.
  *
  * Then a random song is shown in the UI. A result is set depending on how the user
@@ -70,6 +70,8 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     boolean positionIsReset;
     boolean roundIsStarted = false;
 
+    CountDownTimer startingTimer;
+
     private Handler handler = new Handler();
 
     @Override
@@ -92,7 +94,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
      * When countdown is finished a round is started.
      */
     private void startTheStartingCountdown() {
-        CountDownTimer countDownTimer = new CountDownTimer(5000, 1000) {
+        startingTimer = new CountDownTimer(5000, 1000) {
             int countDownInt = 3;
             @Override
             public void onTick(long millisUntilFinished) {
@@ -112,6 +114,13 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
         }.start();
     }
 
+    /**
+     * Cancels the starting timer that counts the user down from 3 before starting the game.
+     */
+    public void cancelStartingTimer() {
+        if(startingTimer!=null)
+            startingTimer.cancel();
+    }
     /**
      * Starting a round of the game. Sets a boolean saying that the round is started (to activate
      * sensors), starts the timer and sets a random song to the UI.
@@ -315,12 +324,14 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        cancelStartingTimer();
         gameRoundViewmodel.cancelTimer();
     }
 
+    /*
     @Override
     public void onDestroy() {
         super.onDestroy();
         gameRoundViewmodel.cancelTimer();
-    }
+    }*/
 }

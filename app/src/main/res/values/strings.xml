@@ -40,4 +40,8 @@
     <string name="play_again_button_text">Spela igen</string>
     <string name="timer_start_value">03:00</string>
     <string name="totalCharacterCount">/100</string>
+    <string name="applicationinfoTitle">Hur funkar appen?</string>
+    <string name="applicationInfoText">Appen kommer förladdad med ett par låtar. Du kan också lägga till låtar
+    med hjälp av "lägg till låt"-funktionen. På sidan "alla låtar" kan du ta bort låtar genom att svepa dem
+        åt vänster, även de som kommer med appen. Men för att spela behöver du minst en låt.</string>
 </resources>
