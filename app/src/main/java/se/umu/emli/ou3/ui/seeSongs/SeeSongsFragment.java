@@ -44,12 +44,22 @@ public class SeeSongsFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_see_songs, container, false);
 
         setUpRecycler();
-        seeSongsViewModel.getAllSongs().observe(requireActivity(), songs -> songAdapter.setSongs(songs));
+        setUpObserver();
         startItemTouchHelper();
 
         return root;
     }
 
+    /**
+     * Sets up the LiveData observer for list of all songs to be displayed for user.
+     */
+    private void setUpObserver() {
+        seeSongsViewModel.getAllSongs().observe(requireActivity(), songs -> songAdapter.setSongs(songs));
+    }
+
+    /**
+     * ItemTouchHelper to delete song when swiped of recyclerview.
+     */
     private void startItemTouchHelper() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT) {
@@ -69,6 +79,9 @@ public class SeeSongsFragment extends Fragment {
         }).attachToRecyclerView(songRecyclerView);
     }
 
+    /**
+     * Sets up the recyclerView by making it and set adapter to it to fill the views.
+     */
     private void setUpRecycler() {
         songRecyclerView = root.findViewById(R.id.song_recycler_view);
 

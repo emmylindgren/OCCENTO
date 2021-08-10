@@ -5,24 +5,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.Objects;
-
 import se.umu.emli.ou3.GameActivity;
 import se.umu.emli.ou3.MainActivity;
 import se.umu.emli.ou3.R;
-import se.umu.emli.ou3.SongRepository;
 
 /**
  * View class.
@@ -54,21 +47,35 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-
+    /**
+     * Sets up listeners for the two buttons "go to add song" and "play game".
+     */
     private void setUpListeners() {
         goToAddSongButton.setOnClickListener(v -> goToAddSong());
         playGameButton.setOnClickListener(v->startGameRound());
     }
 
+    /**
+     * Sets up the viewitems for the view, the two buttons "go to add song" and "play game".
+     */
     private void setUpViewItems() {
         goToAddSongButton = root.findViewById(R.id.add_song_button);
         playGameButton = root.findViewById(R.id.play_game_button);
     }
 
+    /**
+     * Navigates the user to add song fragment for adding songs.
+     */
     private void goToAddSong(){
         ((MainActivity) requireActivity()).showAddSongFragment();
     }
 
+    /**
+     * Starts a gameround for the user. First checks if DB is empty, if it is then the user can't
+     * play (there's no songs). Displays a snackbar telling the user to add songs to play the game.
+     *
+     * Otherwise start a new Game activity for user.
+     */
     private void startGameRound(){
         if(homeViewModel.DBIsEmpty()){
             Snackbar.make(root, "Du måste ha låtar för att spela. Lägg till någon!",
@@ -82,6 +89,6 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();;
+        super.onDestroyView();
     }
 }

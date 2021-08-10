@@ -66,6 +66,9 @@ public class AddSongFragment extends Fragment {
         super.onDestroyView();
     }
 
+    /**
+     * Hides the keyboard in onPause() to make keyboard go away when user presses back button.
+     */
     @Override
     public void onPause(){
         super.onPause();
@@ -83,7 +86,7 @@ public class AddSongFragment extends Fragment {
 
     /**
      * Updates the view character count when user types in characters. To give user visual
-     * input counter for the lyrics field.
+     * input character counter for the lyrics field.
      * @return a new textwatcher.
      */
     @NotNull
@@ -121,7 +124,8 @@ public class AddSongFragment extends Fragment {
 
     /**
      * Checks if the song information is filled in correctly by the user, AKA the user
-     * left no edittext, song, artist or lyrics empty.
+     * left no edittext; song, artist or lyrics empty. Hides keyboard also to give user an
+     * overview of the fields.
      * @param root, the root view. In this case the fragment add song that was inflated.
      */
     private void checkSong(View root){

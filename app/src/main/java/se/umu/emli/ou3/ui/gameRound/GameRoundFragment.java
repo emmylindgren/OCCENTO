@@ -87,7 +87,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
 
     /**
      * Starts a countdown of 3 before starting the gameRound. Displaying "3,2,1,KÖR!" to the user.
-     * When countdown is finished a round is started.
+     * When countdown is finished a GameRound is started.
      */
     private void startTheStartingCountdown() {
         startingTimer = new CountDownTimer(5000, 1000) {
@@ -105,30 +105,31 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
 
             @Override
             public void onFinish() {
-                startTheRound();
+                startTheGameRound();
             }
         }.start();
     }
 
     /**
-     * Cancels the starting timer that counts the user down from 3 before starting the game.
+     * Cancels the starting timer that counts the user down from 3 before starting the game round.
      */
     public void cancelStartingTimer() {
         if(startingTimer!=null)
             startingTimer.cancel();
     }
     /**
-     * Starting a round of the game. Sets a boolean saying that the round is started (to activate
-     * sensors), starts the timer and sets a random song to the UI.
+     * Starting a round of the game. Sets a boolean saying that the round, AKA a random song round,
+     * is started (to start listening to sensors), starts the timer and sets a random song to be
+     * displayed.
      */
-    private void startTheRound() {
+    private void startTheGameRound() {
         songRoundIsStarted = true;
         startTimer();
         setSongView(gameRoundViewmodel.getNextRandomSong());
     }
 
     /**
-     * Starts the timer for 3 minutes and sets an observer on the time left value, updating
+     * Starts the timer and sets an observer on the time left value, updating
      * the timer accordingly.
      */
     private void startTimer() {
@@ -139,7 +140,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     /**
      * Updates the UI timer to show user how much time is left on their turn. When its 1 second
      * or less left on the timer, the accelerometer-sensor is unregistered so that to
-     * not collect any more points this round. When timer hits 0 seconds left, the game round
+     * not collect any more points this game round. When timer hits 0 seconds left, the game round
      * is ended.
      * @param timeLeft, how much time is left.
      */
@@ -158,7 +159,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     }
 
     /**
-     * Sets the songview to a new song.
+     * Sets the songview to display a new song.
      * @param song, the song to be displayed.
      */
     private void setSongView(Song song) {
@@ -232,7 +233,6 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
                 updateUI(R.raw.point, "Poäng!", R.color.green_for_points);
                 gameRoundViewmodel.addPoint();
                 setUpNextSongRound();
-
             }
         }
         // The boolean is reset when user holds the phone against forehead again.
@@ -257,7 +257,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
 
     /**
      * Updated the UI for either pass or point, playing a sound, showing a text and
-     * coloring the background.
+     * coloring the background accordingly.
      *
      * @param p, the ID of the soundeffect to be played.
      * @param s, the string to be displayed showing pass or point.
@@ -336,6 +336,10 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
         sensorManager.unregisterListener(this);
     }
 
+    /**
+     * Cancels the timers in OnDestroyViews because they run on their own thread and
+     * will thus cause exceptions if fragment is destroyed but not them.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

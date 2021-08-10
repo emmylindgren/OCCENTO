@@ -11,5 +11,4 @@ import androidx.lifecycle.ViewModel;
  * @version 1.0
  */
 public class GameResultViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
 }

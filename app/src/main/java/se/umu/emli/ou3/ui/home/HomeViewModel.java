@@ -4,22 +4,18 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
 import se.umu.emli.ou3.SongRepository;
-import se.umu.emli.ou3.ui.addSong.AddSongFragment;
 
 /**
  * ViewModel class.
  *
- * Holding and preparing all the data for the userinterface {@link HomeFragment}. Communicates
+ * Preparing all the data for the userinterface {@link HomeFragment}. Communicates
  * with the repository, passing information between UI and model classes. Also survives configuration
  * changes like rotations of the screen.
- * TODO: mer kommentarer. Ovan är från yt videon.
+ * Starts up DB when created, and tells the fragment if the DB is empty.
  *
  * @author Emmy Lindgren, emli.
  * @version 1.0
@@ -45,6 +41,10 @@ public class HomeViewModel extends AndroidViewModel {
         repository.isSongDBEmpty();
     }
 
+    /**
+     * Checks if the DB is empty.
+     * @return boolean if DB is empty or not.
+     */
     public boolean DBIsEmpty(){
         return repository.isSongDBEmpty();
     }

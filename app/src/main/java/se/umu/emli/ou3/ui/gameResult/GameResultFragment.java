@@ -58,7 +58,7 @@ public class GameResultFragment extends Fragment {
 
     /**
      * Shows the results for the user. Results are sent as a bundle to Gameresultfragment, bundle
-     * is unpacked and textviews are updated accordingly.
+     * is unpacked and textviews showing the results are updated accordingly.
      */
     private void showResults() {
         Bundle extras = getArguments();
@@ -78,7 +78,7 @@ public class GameResultFragment extends Fragment {
 
     /**
      * Gets the user back to the "menu", by finishing the current Gameactivity and thus
-     * getting back to the Mainactivity started first that's on the backstack.
+     * getting back to the Mainactivity started at first, that's on the backstack.
      */
     private void goBackToMenu() {
         getActivity().finish();

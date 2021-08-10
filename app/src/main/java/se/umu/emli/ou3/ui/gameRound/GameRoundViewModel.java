@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 import se.umu.emli.ou3.RandomSongGenerator;
 import se.umu.emli.ou3.Song;
-import se.umu.emli.ou3.ui.gameResult.GameResultFragment;
 
 /**
  * ViewModel class.
@@ -30,7 +29,6 @@ public class GameRoundViewModel extends AndroidViewModel {
     private CountDownTimer countDownTimer;
     private int pointsThisRound;
     private int totalOfSongsThisRound;
-    private Application application;
 
     public GameRoundViewModel(@NonNull @NotNull Application application) {
         super(application);
@@ -38,7 +36,6 @@ public class GameRoundViewModel extends AndroidViewModel {
         timerLiveData = new MutableLiveData<>();
         pointsThisRound= 0;
         totalOfSongsThisRound=0;
-        this.application= application;
     }
 
     public int getPointsThisRound(){
@@ -75,11 +72,10 @@ public class GameRoundViewModel extends AndroidViewModel {
     /**
      * Starts a countdown of 3 minutes and updates the UI every second, showing the user
      * how much time is left on their round. When timer is up the gameround finishes.
-     * TODO: Sätt tillbaka till 3 min aka 180200 milliseconds.
      *
      */
     public void startCountDown() {
-        countDownTimer = new CountDownTimer(10000, 1000) {
+        countDownTimer = new CountDownTimer(180200, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timerLiveData.setValue(millisUntilFinished);

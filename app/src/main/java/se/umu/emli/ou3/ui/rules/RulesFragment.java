@@ -1,7 +1,5 @@
 package se.umu.emli.ou3.ui.rules;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
