@@ -95,7 +95,6 @@ public abstract class SongDataBase extends RoomDatabase {
 
                 for (Song song:dbSongs) {
                     songDao.insert(song);
-                    System.out.println("songinserted");
                 }
             } catch (Exception e) {
                 e.printStackTrace();

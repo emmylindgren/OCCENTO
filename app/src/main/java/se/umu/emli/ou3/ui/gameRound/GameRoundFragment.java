@@ -64,7 +64,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
 
     private static final String TIME_FORMAT = "%02d:%02d";
     boolean positionIsReset;
-    boolean roundIsStarted = false;
+    boolean songRoundIsStarted = false;
 
     CountDownTimer startingTimer;
 
@@ -122,7 +122,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
      * sensors), starts the timer and sets a random song to the UI.
      */
     private void startTheRound() {
-        roundIsStarted = true;
+        songRoundIsStarted = true;
         startTimer();
         setSongView(gameRoundViewmodel.getNextRandomSong());
     }
@@ -211,35 +211,48 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
      * Method is set to take action when device is held horizontal (against forehead) and
      * is tilted up or down, to collect points or pass on the current song.
      *
-     * A boolean is used to make sure points are not collected or songs are not passed several
-     * times for one movement.
+     * Two boolean is used to make sure points are not collected or songs are not passed (or given
+     * a point) several times for one movement, passed while another pass is in progress
+     * or pass when the phone is laying down.
      * @param event, the event that is listened for.
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
         float x = event.values[2];
 
-        if(positionIsReset && roundIsStarted){
+        if(positionIsReset && songRoundIsStarted){
             // User tilts the phone downwards and passes the song, a new song is displayed.
             if (x < -7) {
-                positionIsReset = false;
                 updateUI(R.raw.pass, "Pass!", R.color.red_for_pass);
                 gameRoundViewmodel.noPoint();
-                nextSong();
-
+                setUpNextSongRound();
             }
             //User tilts the phone upwards, gets a point and a new song is displayed.
             else if (x > 7) {
-                positionIsReset = false;
                 updateUI(R.raw.point, "Poäng!", R.color.green_for_points);
                 gameRoundViewmodel.addPoint();
-                nextSong();
+                setUpNextSongRound();
+
             }
         }
         // The boolean is reset when user holds the phone against forehead again.
         else if( -7< x && x < 7) {
             positionIsReset = true;
         }
+    }
+
+    /**
+     * Sets up a new song round by first setting booleans SongRoundIsStarted and
+     * positionIsReset to false. They are used to make sure points are not collected or songs
+     * are not passed several times for one movement, passed while another pass is in progress or
+     * pass when the phone is laying down.
+     *
+     * Then the next song is displayed to user.
+     */
+    private void setUpNextSongRound() {
+        songRoundIsStarted = false;
+        positionIsReset = false;
+        nextSong();
     }
 
     /**
@@ -295,6 +308,7 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
      * backgroundcolor back to original.
      */
     private void setUpNewSongRound() {
+        songRoundIsStarted = true;
         setSongView(gameRoundViewmodel.getNextRandomSong());
         setBackground(R.color.primary_green);
     }
@@ -328,11 +342,4 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
         cancelStartingTimer();
         gameRoundViewmodel.cancelTimer();
     }
-
-    /*
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        gameRoundViewmodel.cancelTimer();
-    }*/
 }
