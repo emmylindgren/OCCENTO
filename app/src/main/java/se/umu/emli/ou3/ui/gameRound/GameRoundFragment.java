@@ -22,15 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import se.umu.emli.ou3.GameActivity;
 import se.umu.emli.ou3.R;
 import se.umu.emli.ou3.Song;
-import se.umu.emli.ou3.ui.home.HomeFragment;
 
 /**
  * View class.
@@ -141,8 +137,10 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
     }
 
     /**
-     * Updates the UI timer to show user how much time is left on their turn. When
-     * timer hits 0 seconds left, the game round is ended.
+     * Updates the UI timer to show user how much time is left on their turn. When its 1 second
+     * or less left on the timer, the accelerometer-sensor is unregistered so that to
+     * not collect any more points this round. When timer hits 0 seconds left, the game round
+     * is ended.
      * @param timeLeft, how much time is left.
      */
     private void updateTimer(Long timeLeft){
@@ -151,6 +149,9 @@ public class GameRoundFragment extends Fragment implements SensorEventListener {
                 TimeUnit.MILLISECONDS.toSeconds(timeLeft) -
                         TimeUnit.MINUTES.toSeconds(
                                 TimeUnit.MILLISECONDS.toMinutes(timeLeft))));
+        if(timeLeft <= 1000){
+            sensorManager.unregisterListener(this);
+        }
         if(timeLeft == 0){
             endRound();
         }

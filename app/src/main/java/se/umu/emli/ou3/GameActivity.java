@@ -4,14 +4,9 @@ package se.umu.emli.ou3;
 import android.os.Bundle;
 import android.view.View;
 
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
-
-import org.jetbrains.annotations.NotNull;
 
 import se.umu.emli.ou3.ui.gameResult.GameResultFragment;
 import se.umu.emli.ou3.ui.gameRound.GameRoundFragment;
@@ -37,14 +32,11 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setUpFragmentResultListeners() {
-        manager.setFragmentResultListener("gameResults", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull @NotNull String requestKey, @NonNull @NotNull Bundle result) {
-                int totalPoints = result.getInt("Points");
-                int totalNrOfSongs = result.getInt("TotalSongs");
+        manager.setFragmentResultListener("gameResults", this, (requestKey, result) -> {
+            int totalPoints = result.getInt("Points");
+            int totalNrOfSongs = result.getInt("TotalSongs");
 
-                goToResults(totalPoints,totalNrOfSongs);
-            }
+            goToResults(totalPoints,totalNrOfSongs);
         });
     }
 
