@@ -4,18 +4,14 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
-
 /**
  * Model class.
  * Repository for interaction between Viewmodels and db. Gives Viewmodels a single access
@@ -24,8 +20,6 @@ import java.util.concurrent.FutureTask;
  * Contains methods for every database operation established in the DAO {@link SongDao} which
  * starts a new thread for calling the operation. This is because Room doesn't allow database
  * operations on the main thread.
- *
- * TODO: Kommentera resten av koden.
  *
  * @author Emmy Lindgren, emli.
  * @version 1.0
@@ -46,6 +40,14 @@ public class SongRepository {
 
     public void delete(Song song){ new Thread(new DeleteTask(songDao,song)).start();}
 
+    /**
+     * Checks if DB is empty. Gets a song from DB and if the song is null then the DB is empty.
+     *
+     * Has to run on a Callable thread as a future task because it does not
+     * return livedata, and thus have to make sure operation is completed before returning a song
+     * from the DB.
+     * @return boolean stating if DB is empty or not.
+     */
     public boolean isSongDBEmpty(){
         Callable callable = new GetASongTask(songDao);
         ExecutorService service = Executors.newSingleThreadExecutor();
@@ -65,6 +67,14 @@ public class SongRepository {
         return (aSong == null);
     }
 
+    /**
+     * Get random Songs from the DB in form of a Queue.
+     *
+     * Has to run on a Callable thread as a future task because it does not
+     * return livedata, and thus have to make sure operation is completed before returning a
+     * Queue of songs from the DB.
+     * @return A queue of random songs from the DB.
+     */
     public Queue<Song> getRandomSongs(){
         Callable callable = new GetRandomsTask(songDao);
         ExecutorService service = Executors.newSingleThreadExecutor();
@@ -133,6 +143,10 @@ public class SongRepository {
         }
     }
 
+    /**
+     * Task for getting Random songs from DB in form of a list of songs.
+     * Before returning songs they are converted into a linked list, a Queue.
+     */
     private static class GetRandomsTask implements Callable<Queue<Song>> {
         private SongDao songDao;
 

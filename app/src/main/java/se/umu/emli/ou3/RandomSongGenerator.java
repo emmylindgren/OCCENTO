@@ -1,9 +1,6 @@
 package se.umu.emli.ou3;
 
-import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
-import android.widget.TextView;
 
 import java.util.Queue;
 

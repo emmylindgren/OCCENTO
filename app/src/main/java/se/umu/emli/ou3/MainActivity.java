@@ -14,7 +14,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * TODO: ViewModel class eller Viewclass?
+ *
+ * Main activity managing the starting fragment of the application, the menu and all other
+ * fragments on the menu; add song, see songs and rules. Sets up the menu and front page first.
  *
  * @author Emmy Lindgren, emli.
  * @version 1.0
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         setUpAppBarAndMenu();
     }
 
+    /**
+     * Sets up the app bar and the menu. Sets up the menu so that back button is showed instead of
+     * menu button on all other pages than the homepage.
+     */
     private void setUpAppBarAndMenu() {
         setSupportActionBar(findViewById(R.id.toolbar));
 
@@ -50,14 +56,21 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    /**
+     * Inflates the menu.
+     * @param menu to be inflated.
+     * @return boolean true.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
-
+    /**
+     * Sets up up navigation to the host fragment.
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this,
@@ -66,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    /**
+     * Starts a Add song fragment.
+     */
     public void showAddSongFragment() {
         navController.navigate(R.id.nav_AddSong);
     }

@@ -8,11 +8,11 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
-import java.util.Queue;
 
 /**
  * Model class.
- * DAO for communication with the SQLite db {@link SongDataBase}.
+ * DAO for communication with the SQLite db {@link SongDataBase}. An interface making db operations
+ * into methods.
  *
  * @author Emmy Lindgren, emli.
  * @version 1.0
@@ -32,12 +32,6 @@ public interface SongDao {
     @Query("SELECT * FROM song_table ORDER BY title DESC")
     LiveData<List<Song>> getAllSongs();
 
-    /**
-     * Denna ej implementerad ännu. TODO: Eventuellt fixa så bara tillagda låtar syns?
-     * @return
-     */
-    @Query("SELECT * FROM song_table WHERE addedByUser== 1 ORDER BY title DESC")
-    LiveData<List<Song>> getAllUserAddedSongs();
 
     @Query("SELECT * FROM song_table LIMIT 1")
     Song getASong();

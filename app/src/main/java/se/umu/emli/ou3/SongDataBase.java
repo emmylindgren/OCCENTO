@@ -1,7 +1,6 @@
 package se.umu.emli.ou3;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -12,20 +11,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,7 +33,7 @@ public abstract class SongDataBase extends RoomDatabase {
     /**
      * Constructor is a singleton to make sure only one instance of the database is initiated.
      * Only creates a database if one is not already created.
-     * Syncronized to make sure only one thread at a time can access this method and thus makes
+     * Synchronized to make sure only one thread at a time can access this method and thus makes
      * sure only one instance is created.
      * @param context
      * @return the db created.
@@ -60,6 +48,9 @@ public abstract class SongDataBase extends RoomDatabase {
         return instance;
     }
 
+    /**
+     * On callback populate the DB.
+     */
     private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback(){
         // Is called when the Database is created.
         @Override
@@ -70,7 +61,8 @@ public abstract class SongDataBase extends RoomDatabase {
     };
 
     /**
-     * Populates the database with Songs.
+     * Populates the database with Songs from a file filled with songs, on separate
+     * thread. Using a Gson to read the json file.
      */
     private static class PopulateDbTask implements Runnable{
         private SongDao songDao;

@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey;
 public class Song {
 
     /**
-     * Autogenerates key to make sure no key is the same.
+     * Autogenerate key to make sure no key is the same.
      */
     @PrimaryKey(autoGenerate = true)
     private int id;

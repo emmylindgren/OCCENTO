@@ -33,6 +33,11 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongHolder> {
         return new SongHolder(itemView);
     }
 
+    /**
+     * Sets up current selected song, aka updating the current song holder.
+     * @param holder, SongHolder to hold the current song.
+     * @param position, which position the song is at in the songlist.
+     */
     @Override
     public void onBindViewHolder(@NonNull @NotNull SongHolder holder, int position) {
         Song currentSong = songs.get(position);
